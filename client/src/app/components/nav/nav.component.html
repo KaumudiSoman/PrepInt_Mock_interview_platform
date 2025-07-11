@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand-md fixed-top navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="">PrepInt</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Home
+            <span class="visually-hidden">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Pricing</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+      </ul>
+      <div class="dropdown" dropdown *ngIf="(authService.user$ | async) as currentUser">
+        <a class="dropdown-toggle text-light text-decoration-none" dropdownToggle>
+          Welcome {{currentUser.username}}</a>
+        <div class="dropdown-menu" *dropdownMenu>
+          <a class="dropdown-item" (click)="logout()">Log Out</a>
+          <a class="dropdown-item" routerLink="/profile" *ngIf="currentUser.isVerified"></a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-danger" (click)="openPopup()">Delete Account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Backdrop and Modal Wrapper -->
+<div class="modal-backdrop show" *ngIf="popup" (click)="popup = false"></div>
+
+<!-- Modal Dialog -->
+<div class="modal d-flex justify-content-center align-items-center" *ngIf="popup">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Account</h5>
+        <button type="button" class="btn-close" (click)="popup = false">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete your account?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="deleteUser()">Delete</button>
+        <button type="button" class="btn btn-secondary" (click)="popup = false">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<div class="d-flex justify-content-start align-items-center" style="margin-top: 100px;" *ngIf="!signedup">
+    <div class="form-width">
+        <form [formGroup]="signupForm" (ngSubmit)="signupForm.valid && signup()">
+            <h2 class="text-center text-primary-emphasis">Sign Up</h2>
+            <hr>
+            
+            <div class="col p-0">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="Username" placeholder="Username" formControlName="userName"
+                    [class.is-invalid]="signupForm.get('userName')?.invalid && 
+                    (signupForm.get('userName')?.dirty || signupForm.get('userName')?.touched)">
+                    <label for="Username">Username</label>
+                </div>
+            </div>
+
+            <div class="col p-0">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="Email" placeholder="Email" formControlName="email"
+                    [class.is-invalid]="signupForm.get('email')?.invalid && 
+                    (signupForm.get('email')?.dirty || signupForm.get('email')?.touched)">
+                    <label for="Email">Email</label>
+                </div>
+            </div>
+
+            <div class="col p-0">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="contactNo" placeholder="contactNo" formControlName="contactNo"
+                    [class.is-invalid]="signupForm.get('contactNo')?.invalid && 
+                    (signupForm.get('contactNo')?.dirty || signupForm.get('contactNo')?.touched)">
+                    <label for="contactNo">Contact Number</label>
+                </div>
+            </div>
+            
+            <div class="col p-0">
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password"
+                        [class.is-invalid]="signupForm.get('password')?.invalid && 
+                        (signupForm.get('password')?.dirty || signupForm.get('password')?.touched)">
+                    <label for="password">Password</label>
+                </div>
+            </div>
+
+            <hr>
+            <div class="text-center mt-3 mb-3">
+                <button class="btn btn-success me-4" type="submit" [disabled]="!signupForm.valid">Sign Up</button>
+            </div>
+            <div class="text-center">
+                <a routerLink="/login" class="text-info">Already have an account? Log In</a>
+            </div>
+        </form>
+    </div>
+    <div class="img-div">
+        <img src="../../assets/images/landing.png" alt="signinpage">
+    </div>
+</div>
+
+<div *ngIf="signedup" class="text-center" style="margin-top: 100px;">
+    <h6>A mail has been sent to your email account. Please click on the link to verify the email.</h6>
+</div>

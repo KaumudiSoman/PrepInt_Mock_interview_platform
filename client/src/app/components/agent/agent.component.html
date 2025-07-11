@@ -1,0 +1,28 @@
+<!-- src/app/components/agent/agent.component.html -->
+<div class="call-container">
+  <h2>AI Interviewer</h2>
+
+  <button *ngIf="callStatus !== 'ACTIVE'" (click)="startCall()">
+    {{ callStatus === 'CONNECTING' ? 'Connecting...' : 'Start Call' }}
+  </button>
+
+  <button *ngIf="callStatus === 'ACTIVE'" (click)="stopCall()">
+    End Call
+  </button>
+
+  <div *ngIf="isSpeaking">🤖 Speaking...</div>
+
+  <div *ngIf="lastMessage">
+    <h4>Latest:</h4>
+    <p>{{ lastMessage }}</p>
+  </div>
+
+  <div *ngIf="messages.length">
+    <h4>Transcript</h4>
+    <ul>
+      <li *ngFor="let msg of messages">
+        <strong>{{ msg.role }}:</strong> {{ msg.content }}
+      </li>
+    </ul>
+  </div>
+</div>
