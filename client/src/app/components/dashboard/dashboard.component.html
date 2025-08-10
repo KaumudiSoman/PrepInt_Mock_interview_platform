@@ -1,1 +1,22 @@
-<p>dashboard works!</p>
+<app-interview-card-grid
+  title="Your Interviews"
+  [interviews]="userInterviews"
+  [user]="true"
+  (startInterview)="startInterview($event)"
+  (thumbsUp)="toggleThumbsUp($event)"
+  (thumbsDown)="toggleThumbsDown($event)"
+  (favorite)="toggleFavorite($event)"
+  (delete)="deleteInterview($event)"
+  (onCreate)="onCreate()">
+</app-interview-card-grid>
+
+<app-interview-card-grid
+  title="Other Interviews"
+  [interviews]="allInterviews"
+  [user]="false"
+  (startInterview)="startInterview($event)"
+  (thumbsUp)="toggleThumbsUp($event)"
+  (thumbsDown)="toggleThumbsDown($event)"
+  (favorite)="toggleFavorite($event)"
+  (delete)="deleteInterview($event)">
+</app-interview-card-grid>

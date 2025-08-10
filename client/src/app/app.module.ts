@@ -17,6 +17,8 @@ import { VerifyEmailComponent } from './components/user-auth/verify-email/verify
 import { ForgotPasswordComponent } from './components/user-auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/user-auth/reset-password/reset-password.component';
 import { AgentComponent } from './components/agent/agent.component';
+import { FavoriteInterviewsComponent } from './components/favorite-interviews/favorite-interviews.component';
+import { InterviewCardGridComponent } from './components/custom-components/interview-card-grid/interview-card-grid.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { AgentComponent } from './components/agent/agent.component';
     VerifyEmailComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    AgentComponent
+    AgentComponent,
+    FavoriteInterviewsComponent,
+    InterviewCardGridComponent
   ],
   imports: [
     BrowserModule,

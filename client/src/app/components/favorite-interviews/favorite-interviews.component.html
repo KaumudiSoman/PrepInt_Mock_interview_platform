@@ -1,0 +1,10 @@
+<app-interview-card-grid
+  title="Favorite Interviews"
+  [interviews]="favoriteInterviews"
+  [user]="false"
+  (startInterview)="startInterview($event)"
+  (thumbsUp)="toggleThumbsUp($event)"
+  (thumbsDown)="toggleThumbsDown($event)"
+  (favorite)="toggleFavorite($event)"
+  (delete)="deleteInterview($event)">
+</app-interview-card-grid>

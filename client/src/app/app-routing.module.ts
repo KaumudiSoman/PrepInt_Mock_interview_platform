@@ -7,6 +7,7 @@ import { VerifyEmailComponent } from './components/user-auth/verify-email/verify
 import { ForgotPasswordComponent } from './components/user-auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/user-auth/reset-password/reset-password.component';
 import { AgentComponent } from './components/agent/agent.component';
+import { FavoriteInterviewsComponent } from './components/favorite-interviews/favorite-interviews.component';
 
 const routes: Routes = [
   {path: '', component: DashboardComponent},
@@ -15,7 +16,8 @@ const routes: Routes = [
   {path: 'verify-email/:token', component: VerifyEmailComponent},
   {path: 'forgot-password', component: ForgotPasswordComponent},
   {path: 'reset-password/:token', component: ResetPasswordComponent},
-  {path: 'create-interview', component: AgentComponent}
+  {path: 'create-interview', component: AgentComponent},
+  {path: 'favorite-interviews', component: FavoriteInterviewsComponent}
 ];
 
 @NgModule({

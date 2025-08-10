@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Contact number of the user is required']
     },
+    profileImage: {
+        type: String,
+        default: "C:/Users/kaumu/Desktop/Vasudha.jpg"
+    },
     isVerified: {
         type: Boolean,
         default: false

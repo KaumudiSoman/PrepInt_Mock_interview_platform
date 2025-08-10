@@ -4,6 +4,7 @@ export interface User {
     email: string;
     role: string;
     contatctNo: string;
+    profileImage: string;
     isVerified: Boolean;
     createdAt: Date;
 }

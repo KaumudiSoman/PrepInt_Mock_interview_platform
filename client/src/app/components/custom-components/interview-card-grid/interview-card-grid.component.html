@@ -1,0 +1,79 @@
+<div class="user-interviews" *ngIf="interviews.length > 0">
+  <h4 class="ps-5 text-body">{{ title }}</h4>
+  <div class="user-interview-grid">
+    <div class="card" *ngFor="let interview of interviews">
+      <div class="card-body">
+        <h4 class="card-title">
+          {{ toCamelCase(interview.role) }} Interview
+          <span class="card-text createdAt text-secondary">
+            {{ interview.createdAt | date: 'dd/MM/yyyy' }}
+          </span>
+        </h4>
+        <h6 class="card-subtitle mb-2 text-muted">
+          Type: {{ toCamelCase(interview.type) }}
+        </h6>
+        <h6 class="card-subtitle mb-2 text-muted">
+          Level: {{ toCamelCase(interview.level) }}
+        </h6>
+        <h6 class="card-subtitle mb-2 text-muted">
+          Stack: {{ formatTechStack(interview.techstack) }}
+        </h6>
+
+        <div class="card-button-div">
+          <button class="btn btn-primary" (click)="startInterview.emit(interview._id)">Start</button>
+
+          <!-- Star Button -->
+          <button class="icon-button" (click)="favorite.emit(interview)">
+            <svg [ngClass]="{ 'filled-star': interview.isFavorite, 'empty-star': !interview.isFavorite }"
+              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+              <path
+                d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.834 
+                  1.48 8.273L12 18.896l-7.416 4.517 
+                  1.48-8.273L0 9.306l8.332-1.151z" />
+            </svg>
+          </button>
+
+          <!-- Delete -->
+          <button class="btn btn-outline-danger" (click)="delete.emit(interview._id)" *ngIf="loggedInUser._id === interview.userId">
+            <i class="fa fa-trash"></i>
+          </button>
+
+          <!-- Thumbs Up -->
+          <div class="thumbs-div">
+            <button class="icon-button" (click)="thumbsUp.emit(interview)">
+                <svg [ngClass]="{ 'filled-up': interview.isThumbsUp, 'empty-up': !interview.isThumbsUp }"
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                <path
+                    d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.31l.95-4.57 
+                    .03-.32c0-.41-.17-.79-.44-1.06L13 1 6.59 
+                    7.41C6.21 7.79 6 8.3 6 8.83V19c0 1.1.9 2 2 2h9c.83 
+                    0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73V10z" />
+                </svg>
+            </button>
+            <span class="text-secondary">{{ interview.upvoteCount }}</span>
+          </div>
+
+          <!-- Thumbs Down -->
+          <div class="thumbs-div">
+            <button class="icon-button" (click)="thumbsDown.emit(interview)">
+                <svg [ngClass]="{ 'filled-down': interview.isThumbsDown, 'empty-down': !interview.isThumbsDown }"
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                <path
+                    d="M22 3h-4v12h4V3zM2 14c0 1.1.9 2 2 2h6.31l-.95 
+                    4.57-.03.32c0 .41.17.79.44 1.06L11 23l6.41-6.41c.38-.38.59-.89.59-1.42V5c0-1.1-.9-2-2-2H7c-.83 
+                    0-1.54.5-1.84 1.22L2.14 11.27c-.09.23-.14.47-.14.73v2z" />
+                </svg>
+            </button>
+            <span class="text-secondary">{{ interview.downvoteCount }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card create-new-card" (click)="onCreate.emit()" role="button" tabindex="0" *ngIf="user">
+      <div class="card-body d-flex justify-content-center align-items-center">
+        <span class="plus-sign">+</span>
+      </div>
+    </div>
+  </div>
+</div>

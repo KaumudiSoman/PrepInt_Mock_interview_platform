@@ -1,59 +1,38 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Interview } from 'src/app/_models/InterviewModel';
-import { User } from 'src/app/_models/UserModel';
 import { InterviewActionsService } from 'src/app/_services/interview-actions.service';
 import { InterviewService } from 'src/app/_services/interview.service';
-import { UserInteracationService } from 'src/app/_services/user-interacation.service';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: 'app-favorite-interviews',
+  templateUrl: './favorite-interviews.component.html',
+  styleUrls: ['./favorite-interviews.component.css']
 })
-export class DashboardComponent implements OnInit {
-  allInterviews: Interview[] = [];
-  userInterviews: Interview[] = [];
-  loggedInUser: User = {} as User;
+export class FavoriteInterviewsComponent implements OnInit {
+  favoriteInterviews: Interview[] = [];
 
   constructor(private interviewService: InterviewService, private toastrService: ToastrService,
-    private interviewActionsService: InterviewActionsService, private route: Router
+    private interviewActionsService: InterviewActionsService
   ) { }
 
   ngOnInit(): void {
-    this.getAllInterviews();
-    this.getUserInterviews();
+    this.getFavoriteInterviews();
   }
 
-  getAllInterviews() {
-    this.interviewService.getAllInterviews().subscribe({
+  getFavoriteInterviews() {
+    this.interviewService.getFavoriteInterviews().subscribe({
       next: (response: any) => {
-        this.allInterviews = response.data;
-        this.allInterviews.forEach(interview => {
+        this.favoriteInterviews = response.data;
+        this.favoriteInterviews.forEach(interview => {
           this.interviewActionsService.getUserInteraction(interview);
         });
       },
-      error: error => {
-        this.toastrService.error(error.message);
+      error: err => {
+        this.toastrService.error(err.message);
       }
-    })
-  };
-
-  getUserInterviews() {
-    this.interviewService.getUserInterviews().subscribe({
-      next: (response: any) => {
-        this.userInterviews = response.data;
-        this.userInterviews.forEach(interview => {
-          this.interviewActionsService.getUserInteraction(interview);
-        });
-        console.log(this.userInterviews);
-      },
-      error: error => {
-        this.toastrService.error(error.message);
-      }
-    })
-  };
+    });
+  }
 
   startInterview(interviewId: String) {
     this.interviewActionsService.startInterview(interviewId);
@@ -62,8 +41,7 @@ export class DashboardComponent implements OnInit {
   toggleThumbsUp(interview: Interview) {
     this.interviewActionsService.toggleThumbsUp(interview).subscribe({
       next: () => {
-        this.getAllInterviews();
-        this.getUserInterviews();
+        this.getFavoriteInterviews();
       },
       error: error => {
         this.toastrService.error(error.message);
@@ -74,8 +52,7 @@ export class DashboardComponent implements OnInit {
   toggleThumbsDown(interview: Interview) {
     this.interviewActionsService.toggleThumbsDown(interview).subscribe({
       next: () => {
-        this.getAllInterviews();
-        this.getUserInterviews();
+        this.getFavoriteInterviews();
       },
       error: error => {
         this.toastrService.error(error.message);
@@ -86,8 +63,7 @@ export class DashboardComponent implements OnInit {
   toggleFavorite(interview: Interview) {
     this.interviewActionsService.toggleFavorite(interview).subscribe({
       next: () => {
-        this.getAllInterviews();
-        this.getUserInterviews();
+        this.getFavoriteInterviews();
       },
       error: error => {
         this.toastrService.error(error.message);
@@ -99,14 +75,9 @@ export class DashboardComponent implements OnInit {
     this.interviewActionsService.deleteInterview(interviewId).subscribe({
       next: (response: any) => {
         this.toastrService.success(response.message);
-        this.getAllInterviews();
-        this.getUserInterviews();
+        this.getFavoriteInterviews();
       },
       error: err => this.toastrService.error(err.message)
     });
-  };
-
-  onCreate() {
-    this.route.navigateByUrl('create-interview');
-  };
+  }
 }

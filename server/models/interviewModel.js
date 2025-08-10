@@ -1,4 +1,3 @@
-// models/Interview.js
 const mongoose = require('mongoose');
 
 const interviewSchema = new mongoose.Schema({
@@ -23,8 +22,17 @@ const interviewSchema = new mongoose.Schema({
     required: [true, 'Interview questions are required']
   },
   userId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: [true, 'Interview userId is required']
+  },
+  upvoteCount: {
+    type: Number,
+    default: 0
+  },
+  downvoteCount: {
+    type: Number,
+    default: 0
   },
   finalized: Boolean,
   coverImage: String,

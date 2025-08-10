@@ -25,8 +25,9 @@
         <a class="dropdown-toggle text-light text-decoration-none" dropdownToggle>
           Welcome {{currentUser.username}}</a>
         <div class="dropdown-menu" *dropdownMenu>
+          <a class="dropdown-item" routerLink="/favorite-interviews">Favorites</a>
+          <a class="dropdown-item" routerLink="/profile" *ngIf="currentUser.isVerified">My Profile</a>
           <a class="dropdown-item" (click)="logout()">Log Out</a>
-          <a class="dropdown-item" routerLink="/profile" *ngIf="currentUser.isVerified"></a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item text-danger" (click)="openPopup()">Delete Account</a>
         </div>

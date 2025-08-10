@@ -10,4 +10,8 @@ export const APIResources = {
     resetPassword: '/reset-password',
 
     interviews: '/interviews',
+    getMyInterviews: '/my-interviews',
+    getFavoriteInterviews: '/favorite-interviews',
+
+    userInteractions: '/user-interactions',
 }

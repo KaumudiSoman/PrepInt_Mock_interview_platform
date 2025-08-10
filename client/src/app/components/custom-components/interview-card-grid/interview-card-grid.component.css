@@ -1,0 +1,137 @@
+.user-interview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+    gap: 20px; /* space between cards */
+    padding: 15px 40px;
+    margin-bottom: 20px;
+}
+
+.card {
+    border: 1px solid #4582EC;
+    background: linear-gradient(145deg, #ffffff, #eaf1fc);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    min-height: 200px;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.card-button-div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    padding-top: 10px;
+}
+
+.thumbs-div button {
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.createdAt {
+    font-size: 13px;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.icon-button svg {
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+/* Star */
+.filled-star {
+  fill: gold;
+  stroke: gold;
+}
+.empty-star {
+  fill: white;
+  stroke: gold;
+  stroke-width: 2;
+}
+
+/* Thumbs Up */
+.filled-up {
+  fill: #4CAF50; /* green */
+  stroke: #4CAF50;
+}
+.empty-up {
+  fill: white;
+  stroke: #4CAF50;
+  stroke-width: 2;
+}
+
+/* Thumbs Down */
+.filled-down {
+  fill: #F44336; /* red */
+  stroke: #F44336;
+}
+.empty-down {
+  fill: white;
+  stroke: #F44336;
+  stroke-width: 2;
+}
+
+.create-new-card {
+    border: 2px dashed #aaa;
+    cursor: pointer;
+    height: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s, border-color 0.3s;
+    border-radius: 12px;
+}
+
+.create-new-card:hover {
+    background-color: #e0f0ff;
+    border-color: #007bff;
+}
+
+.create-new-card .card-body {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.plus-sign {
+    font-size: 5rem;
+    color: #007bff;
+    background-color: #d0e8ff;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: background-color 0.3s, color 0.3s;
+    /* Additional centering properties */
+    line-height: 1;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    text-align: center;
+    /* Remove any potential margin/padding */
+    margin: 0;
+    padding: 0;
+}
+
+.create-new-card:hover .plus-sign {
+    background-color: #007bff;
+    color: white;
+    box-shadow: 0 6px 12px rgba(0,123,255,0.4);
+}
