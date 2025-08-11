@@ -12,7 +12,9 @@ import { InterviewService } from 'src/app/_services/interview.service';
 export class FavoriteInterviewsComponent implements OnInit {
   favoriteInterviews: Interview[] = [];
 
-  constructor(private interviewService: InterviewService, private toastrService: ToastrService,
+  constructor(
+    private interviewService: InterviewService,
+    private toastrService: ToastrService,
     private interviewActionsService: InterviewActionsService
   ) { }
 
@@ -34,7 +36,7 @@ export class FavoriteInterviewsComponent implements OnInit {
     });
   }
 
-  startInterview(interviewId: String) {
+  startInterview(interviewId: string) {
     this.interviewActionsService.startInterview(interviewId);
   };
 

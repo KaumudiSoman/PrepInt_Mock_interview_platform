@@ -8,7 +8,10 @@ import { UtilService } from './util.service';
 })
 export class UserInteracationService {
 
-  constructor(private utilService: UtilService, private http: HttpClient) { }
+  constructor(
+    private utilService: UtilService,
+    private http: HttpClient
+  ) { }
 
   getUserInteraction(interviewId: string) {
     const headers = this.utilService.setAuthHeader();

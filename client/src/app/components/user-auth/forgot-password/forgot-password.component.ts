@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/_services/auth.service';
 
@@ -13,7 +12,10 @@ export class ForgotPasswordComponent {
   forgotPasswordForm : FormGroup = new FormGroup({}); 
   emailFlag: Boolean = false;
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router, private toastrService: ToastrService) { }
+  constructor(
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.initializeForm();

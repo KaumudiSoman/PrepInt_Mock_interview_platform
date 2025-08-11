@@ -17,8 +17,11 @@ export class DashboardComponent implements OnInit {
   userInterviews: Interview[] = [];
   loggedInUser: User = {} as User;
 
-  constructor(private interviewService: InterviewService, private toastrService: ToastrService,
-    private interviewActionsService: InterviewActionsService, private route: Router
+  constructor(
+    private interviewService: InterviewService,
+    private toastrService: ToastrService,
+    private interviewActionsService: InterviewActionsService,
+    private route: Router
   ) { }
 
   ngOnInit(): void {
@@ -55,7 +58,7 @@ export class DashboardComponent implements OnInit {
     })
   };
 
-  startInterview(interviewId: String) {
+  startInterview(interviewId: string) {
     this.interviewActionsService.startInterview(interviewId);
   };
 

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/_services/auth.service';
 
@@ -13,7 +12,11 @@ export class SignupComponent {
   signupForm: FormGroup = new FormGroup({});
   signedup: Boolean = false;
 
-  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService, private toastrService: ToastrService) { }
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private toastrService: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.initializeForm();

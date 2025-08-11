@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Interview } from 'src/app/_models/InterviewModel';
 import { User } from 'src/app/_models/UserModel';
 import { AuthService } from 'src/app/_services/auth.service';
+import { UtilService } from 'src/app/_services/util.service';
 
 @Component({
   selector: 'app-interview-card-grid',
@@ -22,24 +23,18 @@ export class InterviewCardGridComponent {
 
   loggedInUser: User = {} as User;
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private utilService: UtilService
+  ) {
     this.loggedInUser = this.authService.getCurrentUser();
   }
 
   toCamelCase(text: string): string {
-    return text
-      .toLowerCase()
-      .replace(/(?:^|\s)\w/g, match => match.toUpperCase());
+    return this.utilService.toCamelCase(text);
   };
 
   formatTechStack(techstack: string[]): string {
-  if (!techstack || techstack.length === 0) return '';
-
-    return techstack
-      .map(item => {
-        if (!item) return '';
-        return item.charAt(0).toUpperCase() + item.slice(1).toLowerCase();
-      })
-      .join(', ');
+    return this.utilService.formatTechStack(techstack);
   }
 }

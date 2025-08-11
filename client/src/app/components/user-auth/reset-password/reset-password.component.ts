@@ -13,8 +13,12 @@ export class ResetPasswordComponent {
   resetPasswordForm : FormGroup = new FormGroup({}); 
   token: String = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private toastrService: ToastrService,
-    private router: Router, private route: ActivatedRoute
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private toastrService: ToastrService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {

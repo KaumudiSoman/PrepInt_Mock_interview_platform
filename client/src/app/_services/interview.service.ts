@@ -8,7 +8,10 @@ import { APIResources } from '../app.constants';
 })
 export class InterviewService {
 
-  constructor(private utilService: UtilService, private http: HttpClient) { }
+  constructor(
+    private utilService: UtilService,
+    private http: HttpClient
+  ) { }
 
   getAllInterviews() {
     const headers = this.utilService.setAuthHeader();
@@ -28,5 +31,10 @@ export class InterviewService {
   getFavoriteInterviews() {
     const headers = this.utilService.setAuthHeader();
     return this.http.get(APIResources.baseUrl + APIResources.interviews + APIResources.getFavoriteInterviews, {headers});
+  }
+
+  getInterviewById(interviewId: string) {
+    const headers = this.utilService.setAuthHeader();
+    return this.http.get(APIResources.baseUrl + APIResources.interviews + `/${interviewId}`, {headers});
   }
 }

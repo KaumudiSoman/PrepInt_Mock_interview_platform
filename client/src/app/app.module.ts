@@ -16,9 +16,11 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { VerifyEmailComponent } from './components/user-auth/verify-email/verify-email.component';
 import { ForgotPasswordComponent } from './components/user-auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/user-auth/reset-password/reset-password.component';
-import { AgentComponent } from './components/agent/agent.component';
+import { InterviewCreationAgentComponent } from './components/interview-creation-agent/interview-creation-agent.component';
 import { FavoriteInterviewsComponent } from './components/favorite-interviews/favorite-interviews.component';
 import { InterviewCardGridComponent } from './components/custom-components/interview-card-grid/interview-card-grid.component';
+import { InterviewConductingAgentComponent } from './components/interview-conducting-agent/interview-conducting-agent.component';
+import { InterviewFeedbackComponent } from './components/interview-feedback/interview-feedback.component';
 
 @NgModule({
   declarations: [
@@ -30,9 +32,11 @@ import { InterviewCardGridComponent } from './components/custom-components/inter
     VerifyEmailComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    AgentComponent,
+    InterviewCreationAgentComponent,
     FavoriteInterviewsComponent,
-    InterviewCardGridComponent
+    InterviewCardGridComponent,
+    InterviewConductingAgentComponent,
+    InterviewFeedbackComponent
   ],
   imports: [
     BrowserModule,

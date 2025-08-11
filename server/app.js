@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const userRouter = require('./routes/userRoutes');
 const interviewRouter = require('./routes/interviewRoutes');
 const userInteractionRouter = require('./routes/userInteractionRoutes');
+const secretsRouter = require('./routes/secretsRoutes');
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(cookieParser());
 app.use('/api/users', userRouter);
 app.use('/api/interviews', interviewRouter);
 app.use('/api/user-interactions', userInteractionRouter);
+app.use('/api/secrets', secretsRouter);
 
 app.all('*', (req, res) => {
     res.status(404).json({

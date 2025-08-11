@@ -9,7 +9,12 @@ import { AuthService } from 'src/app/_services/auth.service';
   styleUrls: ['./verify-email.component.css']
 })
 export class VerifyEmailComponent implements OnInit {
-  constructor(private authService: AuthService, private router: Router, private toastrService: ToastrService, private route: ActivatedRoute) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastrService: ToastrService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     const token = this.route.snapshot.paramMap.get('token');

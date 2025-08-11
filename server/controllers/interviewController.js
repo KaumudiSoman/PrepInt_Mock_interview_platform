@@ -1,6 +1,6 @@
+const mongoose = require('mongoose');
 const { google } = require("@ai-sdk/google");
 const { generateText } = require("ai");
-const { VapiClient } = require("@vapi-ai/server-sdk");
 const Interview = require("../models/interviewModel");
 const UserInteraction = require("../models/userInteractionModel");
 const { getRandomInterviewCover } = require("./utilController");
@@ -55,10 +55,20 @@ exports.getQuestions = async (req, res) => {
 
 exports.getAllInterviews = async (req, res) => {
   try {
-    console.log(req.user.id);
-    const interviews = await Interview.find({
-      userId: { $ne: req.user.id}
-    });
+    const interviews = await Interview.aggregate([
+      { $match: { userId: { $ne : new mongoose.Types.ObjectId(req.user.id) } } },
+      { $addFields: {
+        totalVotes: { $add: ["$upvoteCount", "$downvoteCount"] },
+        ratio: {
+          $cond: {
+            if: { $eq: ["$totalVotes", 0] },
+            then: 0,
+            else: { $divide: ["$upvoteCount", { $add: ["$upvoteCount", "$downvoteCount"] }] }
+          }
+        }
+      } },
+      { $sort: { ratio: -1, totalVotes: -1 } }
+    ]);  
 
     if(!interviews) {
       return res.status(404).json({
@@ -82,7 +92,6 @@ exports.getAllInterviews = async (req, res) => {
 
 exports.getUserInterviews = async (req, res) => {
   try {
-    console.log(req.user.id);
     const interviews = await Interview.find({userId: req.user.id});
 
     if(!interviews) {
@@ -105,21 +114,21 @@ exports.getUserInterviews = async (req, res) => {
   }
 };
 
-exports.deleteInterview = async(req, res) => {
+exports.deleteInterviewById = async(req, res) => {
   try {
     const interview = await Interview.findByIdAndDelete(req.params.id);
 
     if(req.user.id !== interview.userId) {
       return res.status(403).json({
         status: 'fail',
-        message: 'Users can only delete their own interviews'
+        error: 'Users can only delete their own interviews'
       });
     }
 
     if(!interview) {
       return res.status(404).json({
           status: 'fail',
-          message: `Interview with id ${req.params.id} not found`
+          error: `Interview with id ${req.params.id} not found`
       });
     }
 
@@ -128,10 +137,10 @@ exports.deleteInterview = async(req, res) => {
         message: 'Interview deleted successfully'
     });
   }
-  catch (err) {
+  catch (error) {
     return res.status(500).json({
         status: 'fail',
-        message: err.message
+        error: error.message
     });
   }
 };
@@ -154,10 +163,34 @@ exports.getFavoriteInterviews = async(req, res) => {
       data: interviews
     })
   }
-  catch (err) {
+  catch (error) {
     return res.status(500).json({
         status: 'fail',
-        message: err.message
+        error: error.message
     });
   }
-}
+};
+
+exports.getInterviewById = async(req, res) => {
+  try {
+    const interview = await Interview.findById(req.params.id);
+
+    if(!interview) {
+      return res.status(404).json({
+        status: 'fail',
+        error: `Interview with Id ${req.params.id} not found`
+      });
+    }
+
+    return res.status(200).json({
+      status: 'success',
+      data: interview
+    });
+  }
+  catch (error) {
+    return res.status(500).json({
+      status: 'fail',
+      error: error.message
+    });
+  }
+};

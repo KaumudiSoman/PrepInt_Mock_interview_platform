@@ -3,14 +3,18 @@ import { InterviewService } from './interview.service';
 import { UserInteracationService } from './user-interacation.service';
 import { Interview } from '../_models/InterviewModel';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InterviewActionsService {
 
-  constructor(private interviewService: InterviewService, private userInteractionService: UserInteracationService,
-    private toastrService: ToastrService
+  constructor(
+    private interviewService: InterviewService,
+    private userInteractionService: UserInteracationService,
+    private toastrService: ToastrService,
+    private route: Router
   ) { }
 
   getUserInteraction(interview: Interview) {
@@ -42,8 +46,8 @@ export class InterviewActionsService {
     return this.interviewService.deleteInterview(interviewId);
   };
 
-  startInterview(interviewId: String) {
-
+  startInterview(interviewId: string) {
+    this.route.navigateByUrl(`start-interview/${interviewId}`);
   };
 
   toggleFavorite(interview: Interview) {

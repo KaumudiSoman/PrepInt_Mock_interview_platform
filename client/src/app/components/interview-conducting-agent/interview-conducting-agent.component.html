@@ -1,6 +1,9 @@
-<!-- agent.component.html -->
-<div class="call-container">
-  <h3>Create Interview</h3>
+<div class="call-container" *ngIf="interview">
+  <h3>{{ toCamelCase(interview.role) }} Interview</h3>
+  <p>Created At: {{ interview.createdAt | date: 'dd/MM/yyyy' }}</p>
+  <p>Type: {{ toCamelCase(interview.type) }}</p>
+  <p>Level: {{ toCamelCase(interview.level) }}</p>
+  <p>Stack: {{ formatTechStack(interview.techstack) }}</p>
 
   <div class="video-grid">
     <!-- User window -->

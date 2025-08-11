@@ -1,0 +1,33 @@
+<div class="call-container">
+  <h3>Create Interview</h3>
+
+  <div class="video-grid">
+    <!-- User window -->
+    <div class="video-window" [class.speaking]="currentSpeaker === 'user'">
+      <img [src]="loggedInUser.profileImage || 'assets/images/Vasudha.jpg'" alt="User" />
+      <div class="name-label">{{ loggedInUser.username }}</div>
+    </div>
+
+    <!-- Bot window -->
+    <div class="video-window" [class.speaking]="currentSpeaker === 'bot'">
+      <img src="assets/images/Vasudha.jpg" alt="AI Bot" />
+      <div class="name-label">AI Bot</div>
+    </div>
+  </div>
+
+  <div class="call-actions">
+    <button class="btn btn-success" *ngIf="callStatus !== 'ACTIVE'" (click)="startCall()">
+      {{ callStatus === 'CONNECTING' ? 'Connecting...' : 'Start Call' }}
+    </button>
+
+    <button class="btn btn-danger" *ngIf="callStatus === 'ACTIVE'" (click)="stopCall()">
+      End Call
+    </button>
+  </div>
+
+  <div class="msg-box">
+    <div *ngIf="lastMessage" class="latest-msg">
+      <p>{{ lastMessage }}</p>
+    </div>
+  </div>
+</div>

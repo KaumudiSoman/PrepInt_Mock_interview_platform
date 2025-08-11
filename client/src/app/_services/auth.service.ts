@@ -10,7 +10,10 @@ import { UtilService } from './util.service';
 })
 export class AuthService {
 
-  constructor(private http: HttpClient, private utilService: UtilService) {
+  constructor(
+    private http: HttpClient,
+    private utilService: UtilService
+  ) {
     const storedUser = localStorage.getItem('currentUser');
     if (storedUser) {
       const user = JSON.parse(storedUser);

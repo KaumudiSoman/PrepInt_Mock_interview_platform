@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import Vapi from '@vapi-ai/web';
-import { firstValueFrom } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/_models/UserModel';
-import { AgentService } from 'src/app/_services/agent.service';
 import { AuthService } from 'src/app/_services/auth.service';
+import { InterviewAgentService } from 'src/app/_services/interview-agent.service';
+import { SecretsService } from 'src/app/_services/secrets.service';
 
 enum CallStatus {
   INACTIVE = 'INACTIVE',
@@ -14,20 +14,27 @@ enum CallStatus {
 }
 
 @Component({
-  selector: 'app-agent',
-  templateUrl: './agent.component.html',
-  styleUrls: ['./agent.component.css']
+  selector: 'app-interview-creation-agent',
+  templateUrl: './interview-creation-agent.component.html',
+  styleUrls: ['./interview-creation-agent.component.css']
 })
-export class AgentComponent implements OnInit, OnDestroy {
+export class InterviewCreationAgentComponent implements OnInit {
   callStatus: CallStatus = CallStatus.INACTIVE;
   currentSpeaker: 'user' | 'bot' | null = null;
   messages: { role: string; content: string }[] = [];
   lastMessage = '';
-  workflowId = "dff194a3-466e-4861-99ad-c787e38d4239";
+  workflowId: string = "";
   loggedInUser: User = {} as User;
 
-  constructor(private agentService: AgentService, private authService: AuthService, private route: Router) {
+  constructor(
+    private agentService: InterviewAgentService,
+    private authService: AuthService,
+    private route: Router,
+    private secretsService: SecretsService,
+    private toastrService: ToastrService
+  ) {
     this.loggedInUser = this.authService.getCurrentUser();
+    this.getSecrets();
   }
 
   ngOnInit(): void {
@@ -62,19 +69,23 @@ export class AgentComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    // this.agentService.off('call-start', () => (this.callStatus = CallStatus.ACTIVE));
-    // this.agentService.off('call-end', () => (this.callStatus = CallStatus.FINISHED));
-    // this.agentService.off('speech-start', () => {});
-    // this.agentService.off('speech-end', () => {});
-    // this.agentService.off('message', () => {});
+  getSecrets() {
+    this.secretsService.getSecrets().subscribe({
+      next: (response: any) => {
+        this.workflowId = response.data.VAPI_WORKFLOW_ID;
+      },
+      error: err => this.toastrService.error(err.message)
+    });
   }
 
   startCall() {
     this.callStatus = CallStatus.CONNECTING;
-    this.agentService.startCall(this.workflowId, {
+    this.agentService.startCreationCall(this.workflowId, {
       username: this.loggedInUser.username,
       userid: this.loggedInUser._id,
+    }).catch(error => {
+      console.error('Failed to start call:', error);
+      this.callStatus = CallStatus.INACTIVE;
     });
   }
 

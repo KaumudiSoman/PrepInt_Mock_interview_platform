@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/_models/UserModel';
 import { AuthService } from 'src/app/_services/auth.service';
-import { InterviewService } from 'src/app/_services/interview.service';
 
 @Component({
   selector: 'app-nav',
@@ -13,8 +12,10 @@ import { InterviewService } from 'src/app/_services/interview.service';
 export class NavComponent {
   loggedInUser: User = {} as User;
   popup: boolean = false;
-  constructor(public authService: AuthService, private router: Router, private toastrService: ToastrService,
-    private interviewService: InterviewService
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    private toastrService: ToastrService,
   ) {
     this.loggedInUser = this.authService.getCurrentUser();
   }
