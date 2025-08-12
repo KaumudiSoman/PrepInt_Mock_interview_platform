@@ -11,6 +11,10 @@ const passwordResetToken = id => {
     return jwt.sign({ id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.PASS_RESET_JWT_EXPIRES_IN });
 }
 
+const refreshToken = id => {
+    return jwt.sign({ id }, process.env.JWT_REFRESH_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRES_IN });
+}
+
 exports.signup = async (req, res) => {
     try {
         
@@ -80,21 +84,57 @@ exports.protect = async (req, res, next) => {
     }
 
     //Decode the token to get the user id
-    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET_KEY);
+    try {
+        const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET_KEY);
 
-    //Find user based on decoded id
-    const user = await User.findById(decoded.id);
+        //Find user based on decoded id
+        const user = await User.findById(decoded.id);
 
-    if(!user) {
-        return res.status(401).json({
-            status: 'fail',
-            message: 'User associated with this token no longer exists'
-        });
+        if(!user) {
+            return res.status(401).json({
+                status: 'fail',
+                message: 'User associated with this token no longer exists'
+            });
+        }
+
+        //If authorization is successful
+        req.user = user;
+        next();
     }
+    catch (err) {
+        if (err.name === 'TokenExpiredError') {
+            const refreshToken = req.headers['x-refresh-token'];
 
-    //If authorization is successful
-    req.user = user;
-    next();
+            if (!refreshToken) {
+                return res.status(401).json({ status: 'fail', message: 'Session expired. Please log in again.' });
+            }
+
+            try {
+                const decodedRefresh = await promisify(jwt.verify)(refreshToken, process.env.JWT_REFRESH_SECRET_KEY);
+
+                const user = await User.findById(decodedRefresh.id);
+                if (!user) {
+                    return res.status(401).json({
+                        status: 'fail',
+                        message: 'User associated with this token no longer exists'
+                    });
+                }
+
+                //Issue new tokens
+                const accessToken = signInToken(user._id);
+                const newRefreshToken = refreshToken(user._id);
+
+                res.setHeader('x-access-token', accessToken);
+                res.setHeader('x-refresh-token', newRefreshToken);
+
+                req.user = user;
+                return next();
+
+            } catch (refreshErr) {
+                return res.status(401).json({ status: 'fail', message: 'Refresh token expired. Please log in again.' });
+            }
+        }
+    }
 };
 
 exports.verify = async(req, res, next) => {
