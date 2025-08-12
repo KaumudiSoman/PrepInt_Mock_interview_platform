@@ -16,7 +16,7 @@ export const APIResources = {
 
     userInteractions: '/user-interactions',
 
-    getSecrets: 'secrets'
+    getSecrets: '/secrets'
 }
 
 import { CreateAssistantDTO } from "@vapi-ai/web/dist/api";

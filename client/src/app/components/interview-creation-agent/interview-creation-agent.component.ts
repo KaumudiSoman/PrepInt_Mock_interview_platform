@@ -5,6 +5,7 @@ import { User } from 'src/app/_models/UserModel';
 import { AuthService } from 'src/app/_services/auth.service';
 import { InterviewAgentService } from 'src/app/_services/interview-agent.service';
 import { SecretsService } from 'src/app/_services/secrets.service';
+import { UtilService } from 'src/app/_services/util.service';
 
 enum CallStatus {
   INACTIVE = 'INACTIVE',
@@ -31,7 +32,8 @@ export class InterviewCreationAgentComponent implements OnInit {
     private authService: AuthService,
     private route: Router,
     private secretsService: SecretsService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private utilService: UtilService
   ) {
     this.loggedInUser = this.authService.getCurrentUser();
     this.getSecrets();
@@ -93,5 +95,9 @@ export class InterviewCreationAgentComponent implements OnInit {
     this.agentService.stopCall();
     this.callStatus = CallStatus.FINISHED;
     this.currentSpeaker = null;
+  }
+
+  toCamelCase(text: string) {
+    return this.utilService.toCamelCase(text);
   }
 }

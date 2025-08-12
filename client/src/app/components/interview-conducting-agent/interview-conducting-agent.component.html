@@ -8,14 +8,14 @@
   <div class="video-grid">
     <!-- User window -->
     <div class="video-window" [class.speaking]="currentSpeaker === 'user'">
-      <img [src]="loggedInUser.profileImage || 'assets/images/Vasudha.jpg'" alt="User" />
-      <div class="name-label">{{ loggedInUser.username }}</div>
+      <img [src]="loggedInUser.profileImage" alt="User" />
+      <div class="name-label">{{ toCamelCase(loggedInUser.username) }}</div>
     </div>
 
     <!-- Bot window -->
     <div class="video-window" [class.speaking]="currentSpeaker === 'bot'">
-      <img src="assets/images/Vasudha.jpg" alt="AI Bot" />
-      <div class="name-label">AI Bot</div>
+      <img src="https://prepint-images.s3.ap-south-1.amazonaws.com/female-interviewer.png" alt="AI Bot" />
+      <div class="name-label">Sarah</div>
     </div>
   </div>
 

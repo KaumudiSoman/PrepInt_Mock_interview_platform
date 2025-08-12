@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -21,6 +21,7 @@ import { FavoriteInterviewsComponent } from './components/favorite-interviews/fa
 import { InterviewCardGridComponent } from './components/custom-components/interview-card-grid/interview-card-grid.component';
 import { InterviewConductingAgentComponent } from './components/interview-conducting-agent/interview-conducting-agent.component';
 import { InterviewFeedbackComponent } from './components/interview-feedback/interview-feedback.component';
+import { AuthErrorInterceptor } from './_interceptors/auth-error.interceptor';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,9 @@ import { InterviewFeedbackComponent } from './components/interview-feedback/inte
     ToastrModule.forRoot({positionClass: 'toast-bottom-right'}),
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

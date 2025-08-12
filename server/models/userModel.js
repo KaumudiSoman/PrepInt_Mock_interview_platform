@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
     },
     profileImage: {
         type: String,
-        default: "C:/Users/kaumu/Desktop/Vasudha.jpg"
+        default: "https://prepint-images.s3.ap-south-1.amazonaws.com/default-profile.jpg"
     },
     isVerified: {
         type: Boolean,
