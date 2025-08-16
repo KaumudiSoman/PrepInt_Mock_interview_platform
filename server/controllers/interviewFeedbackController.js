@@ -104,3 +104,27 @@ exports.getFeedbackById = async(req, res) => {
         });
     }
 };
+
+exports.getAllFeedbacks = async(req, res) => {
+    try {
+        const feedbacks = await InterviewFeedback.find({userId: req.user.id});
+
+        if(!feedbacks) {
+            return res.status(404).json({
+                status: 'fail',
+                message: 'Feedbacks not found'
+            });
+        }
+
+        return res.status(200).json({
+            status: 'success',
+            data: feedbacks
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            status: 'fail',
+            error: error.message
+        });
+    }
+};

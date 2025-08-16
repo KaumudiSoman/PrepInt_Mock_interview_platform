@@ -1,3 +1,5 @@
+import { Interview } from "./InterviewModel";
+
 export interface CategoryScore {
   _id: string;
   name: string;
@@ -7,11 +9,14 @@ export interface CategoryScore {
 
 export interface Feedback {
   _id: string;
+  userId: string;
+  interviewId: string;
   totalScore: number;
   categoryScores: CategoryScore[];
   strengths: string[];
   areasForImprovement: string[];
   finalAssessment: string;
+  interview: Interview
   createdAt: string;
   updatedAt: string;
 }

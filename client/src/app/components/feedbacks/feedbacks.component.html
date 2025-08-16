@@ -1,0 +1,19 @@
+<div class="feedback-list">
+  <div *ngFor="let feedback of feedbacks">
+    <a [href]="'/interview-feedback/' + feedback._id" class="feedback-card">
+      <div class="feedback-header">
+        <h3>{{ toCamelCase(feedback.interview.role) }} Interview</h3>
+        <span class="date">{{ (feedback.updatedAt || feedback.createdAt) | date: 'dd/MM/yyyy' }}</span>
+      </div>
+      
+      <p class="summary">
+        {{ feedback.finalAssessment }}
+      </p>
+      
+      <div class="score">
+        <span class="score-label">Total Score:</span>
+        <span class="score-value">{{ feedback.totalScore }} / 100</span>
+      </div>
+    </a>
+  </div>
+</div>

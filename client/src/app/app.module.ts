@@ -22,6 +22,7 @@ import { InterviewCardGridComponent } from './components/custom-components/inter
 import { InterviewConductingAgentComponent } from './components/interview-conducting-agent/interview-conducting-agent.component';
 import { InterviewFeedbackComponent } from './components/interview-feedback/interview-feedback.component';
 import { AuthErrorInterceptor } from './_interceptors/auth-error.interceptor';
+import { FeedbacksComponent } from './components/feedbacks/feedbacks.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { AuthErrorInterceptor } from './_interceptors/auth-error.interceptor';
     FavoriteInterviewsComponent,
     InterviewCardGridComponent,
     InterviewConductingAgentComponent,
-    InterviewFeedbackComponent
+    InterviewFeedbackComponent,
+    FeedbacksComponent
   ],
   imports: [
     BrowserModule,

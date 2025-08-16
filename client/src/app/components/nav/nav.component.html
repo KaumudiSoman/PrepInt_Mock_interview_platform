@@ -4,28 +4,22 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarColor01">
+    <div class="collapse navbar-collapse" id="navbarColor01" *ngIf="(authService.user$ | async) as currentUser">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Home
-            <span class="visually-hidden">(current)</span>
-          </a>
+          <a class="nav-link active" href="/">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link" href="/feedbacks">Feedbacks</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
+          <a class="nav-link" href="/favorite-interviews">Favorites</a>
         </li>
       </ul>
-      <div class="dropdown" dropdown *ngIf="(authService.user$ | async) as currentUser">
+      <div class="dropdown" dropdown>
         <a class="dropdown-toggle text-light text-decoration-none" dropdownToggle>
           Welcome {{currentUser.username}}</a>
         <div class="dropdown-menu" *dropdownMenu>
-          <a class="dropdown-item" routerLink="/favorite-interviews">Favorites</a>
           <a class="dropdown-item" routerLink="/profile" *ngIf="currentUser.isVerified">My Profile</a>
           <a class="dropdown-item" (click)="logout()">Log Out</a>
           <div class="dropdown-divider"></div>

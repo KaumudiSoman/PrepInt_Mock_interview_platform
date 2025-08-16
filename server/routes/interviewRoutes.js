@@ -18,6 +18,7 @@ router.route('/get-questions')
     .post(interviewController.getQuestions);
 
 router.route('/feedback')
+    .get(authController.protect, authController.verify, feedbackController.getAllFeedbacks)
     .post(authController.protect, authController.verify, feedbackController.createFeedback);
 
 router.route('/feedback/:id')

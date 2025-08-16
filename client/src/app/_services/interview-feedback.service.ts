@@ -22,4 +22,9 @@ export class InterviewFeedbackService {
     const headers = this.utilService.setAuthHeader();
     return this.http.get(APIResources.baseUrl + APIResources.interviews + APIResources.feedback + `/${feedbackId}`, {headers});
   }
+
+  getAllFeedbacks() {
+    const headers = this.utilService.setAuthHeader();
+    return this.http.get(APIResources.baseUrl + APIResources.interviews + APIResources.feedback, {headers});
+  }
 }

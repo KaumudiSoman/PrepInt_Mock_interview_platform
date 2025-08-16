@@ -3,21 +3,16 @@
   <div class="user-interview-grid">
     <div class="card" *ngFor="let interview of interviews">
       <div class="card-body">
-        <h4 class="card-title">
-          {{ toCamelCase(interview.role) }} Interview
-          <span class="card-text createdAt text-secondary">
-            {{ interview.createdAt | date: 'dd/MM/yyyy' }}
-          </span>
-        </h4>
-        <h6 class="card-subtitle mb-2 text-muted">
-          Type: {{ toCamelCase(interview.type) }}
-        </h6>
-        <h6 class="card-subtitle mb-2 text-muted">
-          Level: {{ toCamelCase(interview.level) }}
-        </h6>
-        <h6 class="card-subtitle mb-2 text-muted">
-          Stack: {{ formatTechStack(interview.techstack) }}
-        </h6>
+        <div class="interview-info">
+          <div class="title-row">
+            <h2>{{ toCamelCase(interview.role) }} Interview</h2>
+            <span class="date">{{ interview.createdAt | date: 'dd/MM/yyyy' }}</span>
+          </div>
+          
+          <p><span class="label">Type:</span> {{ toCamelCase(interview.type) }}</p>
+          <p><span class="label">Level:</span> {{ toCamelCase(interview.level) }}</p>
+          <p><span class="label">Stack:</span> {{ formatTechStack(interview.techstack) }}</p>
+        </div>
 
         <div class="card-button-div">
           <button class="btn btn-primary" (click)="startInterview.emit(interview._id)">Start</button>

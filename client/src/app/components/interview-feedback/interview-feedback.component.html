@@ -1,38 +1,60 @@
+<!-- Angular Template -->
 <div class="feedback-container" *ngIf="feedback">
-  <h2>Interview Feedback</h2>
-
-  <div class="score-summary">
-    <h3>Total Score</h3>
-    <div class="score">{{ feedback.totalScore }}/100</div>
+  <div class="header">
+    <h2>Interview Feedback</h2>
+    <p>Comprehensive assessment and recommendations</p>
   </div>
 
-  <div class="category-section">
-    <h3>Category Scores</h3>
-    <div class="category" *ngFor="let cat of feedback.categoryScores">
-      <div class="category-header">
-        <strong>{{ cat.name }}</strong>
-        <span class="category-score">{{ cat.score }}/100</span>
+  <div class="content">
+    <div class="score-summary">
+      <div class="score-circle">
+        <div class="score">{{ feedback.totalScore }}/100</div>
       </div>
-      <p class="category-comment">{{ cat.comment }}</p>
+      <div class="score-label">Overall Performance</div>
     </div>
-  </div>
 
-  <div class="list-section">
-    <h3>Strengths</h3>
-    <ul>
-      <li *ngFor="let strength of feedback.strengths">{{ strength }}</li>
-    </ul>
-  </div>
+    <div class="section">
+      <h3 class="section-title">Category Performance</h3>
+      <div class="categories-grid">
+        <div class="category-card" *ngFor="let cat of feedback.categoryScores">
+          <div class="category-header">
+            <span class="category-name">{{ cat.name }}</span>
+            <span class="category-score">{{ cat.score }}/100</span>
+          </div>
+          <p class="category-comment">{{ cat.comment }}</p>
+        </div>
+      </div>
+    </div>
 
-  <div class="list-section">
-    <h3>Areas for Improvement</h3>
-    <ul>
-      <li *ngFor="let area of feedback.areasForImprovement">{{ area }}</li>
-    </ul>
-  </div>
+    <div class="section">
+      <div class="list-container">
+        <div class="list-card">
+          <div class="list-header strengths-header">Key Strengths</div>
+          <div class="list-content">
+            <div class="list-item" *ngFor="let strength of feedback.strengths">
+              {{ strength }}
+            </div>
+          </div>
+        </div>
 
-  <div class="assessment-section">
-    <h3>Final Assessment</h3>
-    <p>{{ feedback.finalAssessment }}</p>
+        <div class="list-card">
+          <div class="list-header improvements-header">Areas for Growth</div>
+          <div class="list-content">
+            <div class="list-item" *ngFor="let area of feedback.areasForImprovement">
+              {{ area }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="assessment-card">
+        <div class="assessment-content">
+          <h3 class="assessment-title">Final Assessment</h3>
+          <p class="assessment-text">{{ feedback.finalAssessment }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
