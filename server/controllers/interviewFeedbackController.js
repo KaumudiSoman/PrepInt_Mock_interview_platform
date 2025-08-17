@@ -5,7 +5,7 @@ const InterviewFeedback = require('../models/interviewFeedbackModel');
 
 exports.createFeedback = async(req, res) => {
     try {
-        const {transcript, userId, interviewId} = req.body;
+        const {transcript, userId, interviewId, attemptId} = req.body;
 
         // Validate input
         if (!transcript || !Array.isArray(transcript) || transcript.length === 0) {
@@ -50,6 +50,7 @@ Respond with a JSON object matching the exact schema structure.`,
     const savedFeedback = await InterviewFeedback.create({
         userId,
         interviewId,
+        attemptId,
         totalScore: parsedFeedback.totalScore,
         categoryScores: parsedFeedback.categoryScores,
         strengths: parsedFeedback.strengths,

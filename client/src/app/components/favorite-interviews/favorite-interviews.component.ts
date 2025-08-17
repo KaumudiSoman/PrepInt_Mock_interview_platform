@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Interview } from 'src/app/_models/InterviewModel';
+import { AttemptsService } from 'src/app/_services/attempts.service';
 import { InterviewActionsService } from 'src/app/_services/interview-actions.service';
 import { InterviewService } from 'src/app/_services/interview.service';
 
@@ -15,7 +16,8 @@ export class FavoriteInterviewsComponent implements OnInit {
   constructor(
     private interviewService: InterviewService,
     private toastrService: ToastrService,
-    private interviewActionsService: InterviewActionsService
+    private interviewActionsService: InterviewActionsService,
+    private attemptsService: AttemptsService,
   ) { }
 
   ngOnInit(): void {
@@ -28,6 +30,7 @@ export class FavoriteInterviewsComponent implements OnInit {
         this.favoriteInterviews = response.data;
         this.favoriteInterviews.forEach(interview => {
           this.interviewActionsService.getUserInteraction(interview);
+          this.getAttempts(interview);
         });
       },
       error: err => {
@@ -80,6 +83,17 @@ export class FavoriteInterviewsComponent implements OnInit {
         this.getFavoriteInterviews();
       },
       error: err => this.toastrService.error(err.message)
+    });
+  }
+
+  getAttempts(interview: Interview) {
+    this.attemptsService.getAttemptsCount(interview._id).subscribe({
+      next: (response: any) => {
+        interview.attempts = response.data;
+      },
+      error: error => {
+        this.toastrService.error(error.message);
+      }
     });
   }
 }

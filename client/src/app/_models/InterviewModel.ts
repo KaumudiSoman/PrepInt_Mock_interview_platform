@@ -14,4 +14,5 @@ export interface Interview {
     downvoteCount: number;
     isThumbsUp: boolean;
     isThumbsDown: boolean;
+    attempts: number;
 }

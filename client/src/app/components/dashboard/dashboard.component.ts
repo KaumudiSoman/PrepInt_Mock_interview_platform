@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Interview } from 'src/app/_models/InterviewModel';
 import { User } from 'src/app/_models/UserModel';
+import { AttemptsService } from 'src/app/_services/attempts.service';
 import { InterviewActionsService } from 'src/app/_services/interview-actions.service';
 import { InterviewService } from 'src/app/_services/interview.service';
 import { UserInteracationService } from 'src/app/_services/user-interacation.service';
@@ -21,6 +22,7 @@ export class DashboardComponent implements OnInit {
     private interviewService: InterviewService,
     private toastrService: ToastrService,
     private interviewActionsService: InterviewActionsService,
+    private attemptsService: AttemptsService,
     private route: Router
   ) { }
 
@@ -35,6 +37,7 @@ export class DashboardComponent implements OnInit {
         this.allInterviews = response.data;
         this.allInterviews.forEach(interview => {
           this.interviewActionsService.getUserInteraction(interview);
+          this.getAttempts(interview);
         });
       },
       error: error => {
@@ -49,6 +52,7 @@ export class DashboardComponent implements OnInit {
         this.userInterviews = response.data;
         this.userInterviews.forEach(interview => {
           this.interviewActionsService.getUserInteraction(interview);
+          this.getAttempts(interview);
         });
         console.log(this.userInterviews);
       },
@@ -112,4 +116,15 @@ export class DashboardComponent implements OnInit {
   onCreate() {
     this.route.navigateByUrl('create-interview');
   };
+
+  getAttempts(interview: Interview) {
+    this.attemptsService.getAttemptsCount(interview._id).subscribe({
+      next: (response: any) => {
+        interview.attempts = response.data;
+      },
+      error: error => {
+        this.toastrService.error(error.message);
+      }
+    });
+  }
 }

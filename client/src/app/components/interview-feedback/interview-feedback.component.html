@@ -1,8 +1,17 @@
-<!-- Angular Template -->
-<div class="feedback-container" *ngIf="feedback">
+<div class="feedback-container" *ngIf="feedback && interview">
   <div class="header">
-    <h2>Interview Feedback</h2>
+    <h2>{{ toCamelCase(interview.role) }} Interview Feedback</h2>
     <p>Comprehensive assessment and recommendations</p>
+    
+    <div class="interview-info">
+      <span><b>Type:</b> {{ toCamelCase(interview.type) }}</span>
+      <span><b>Level:</b> {{ toCamelCase(interview.level) }}</span>
+      <span><b>Stack:</b> {{ formatTechStack(interview.techstack) }}</span>
+      <span *ngIf="attemptNumber === 1"> {{ attemptNumber }}st Attempt</span>
+      <span *ngIf="attemptNumber === 2"> {{ attemptNumber }}nd Attempt</span>
+      <span *ngIf="attemptNumber === 3"> {{ attemptNumber }}rd Attempt</span>
+      <span *ngIf="attemptNumber > 3"> {{ attemptNumber }}th Attempt</span>
+    </div>
   </div>
 
   <div class="content">
@@ -14,7 +23,6 @@
     </div>
 
     <div class="section">
-      <h3 class="section-title">Category Performance</h3>
       <div class="categories-grid">
         <div class="category-card" *ngFor="let cat of feedback.categoryScores">
           <div class="category-header">

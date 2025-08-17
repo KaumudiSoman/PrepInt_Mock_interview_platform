@@ -12,8 +12,14 @@ const categoryScoreSchema = new mongoose.Schema({
     ],
     required: true
   },
-  score: { type: Number, required: true },
-  comment: { type: String, required: true }
+  score: {
+    type: Number,
+    required: true
+  },
+  comment: {
+    type: String,
+    required: true
+  }
 });
 
 const interviewFeedbackSchema = new mongoose.Schema({
@@ -25,6 +31,11 @@ const interviewFeedbackSchema = new mongoose.Schema({
   interviewId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Interview',
+    required: true
+  },
+  attemptId: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Attempts',
     required: true
   },
   totalScore: {

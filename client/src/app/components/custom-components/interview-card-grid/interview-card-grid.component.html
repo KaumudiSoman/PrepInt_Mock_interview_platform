@@ -2,6 +2,9 @@
   <h4 class="ps-5 text-body">{{ title }}</h4>
   <div class="user-interview-grid">
     <div class="card" *ngFor="let interview of interviews">
+      <div class="attempt-tag" *ngIf="interview.attempts > 0">
+        Attempted
+      </div>
       <div class="card-body">
         <div class="interview-info">
           <div class="title-row">

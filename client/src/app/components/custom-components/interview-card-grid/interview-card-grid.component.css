@@ -1,7 +1,7 @@
 .user-interview-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-    gap: 20px; /* space between cards */
+    gap: 35px; /* space between cards */
     padding: 15px 40px;
     margin-bottom: 20px;
 }
@@ -13,6 +13,8 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     min-height: 200px;
+    position: relative;
+    overflow: hidden;
 }
 
 .card:hover {
@@ -145,9 +147,10 @@
 .title-row {
   padding-top: 5px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: baseline;
+  justify-content: flex-start;
   margin-bottom: 12px;
+  gap: 10px;
 }
 
 .title-row h2 {
@@ -171,4 +174,17 @@ p {
 .label {
   font-weight: 600;
   color: #2c3e50;
+}
+
+
+.attempt-tag {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #28a745;   /* green for attempted */
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-bottom-left-radius: 6px; /* small curve bottom-left */
 }

@@ -1,14 +1,9 @@
 <div class="call-container" *ngIf="interview">
-  <!-- <h3>{{ toCamelCase(interview.role) }} Interview</h3>
-  <p>Created At: {{ interview.createdAt | date: 'dd/MM/yyyy' }}</p>
-  <p>Type: {{ toCamelCase(interview.type) }}</p>
-  <p>Level: {{ toCamelCase(interview.level) }}</p>
-  <p>Stack: {{ formatTechStack(interview.techstack) }}</p> -->
-
   <div class="interview-card">
     <div class="card-header">
-      <h2>Backend Interview</h2>
-      <p class="date">Created At: 07/08/2025</p>
+      <h2>{{ toCamelCase(interview.role) }} Interview</h2>
+      <p class="date">Created At: {{ interview.createdAt | date: 'dd/MM/yyyy' }}</p>
+      <p class="date">Attempts: {{ interview.attempts }}</p>
     </div>
 
     <div class="vertical-line"></div>
@@ -28,9 +23,6 @@
       </div>
     </div>
   </div>
-
-
-
 
   <div class="video-grid">
     <!-- User window -->

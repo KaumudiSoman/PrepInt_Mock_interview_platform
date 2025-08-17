@@ -11,6 +11,7 @@ export interface Feedback {
   _id: string;
   userId: string;
   interviewId: string;
+  attemptId: string;
   totalScore: number;
   categoryScores: CategoryScore[];
   strengths: string[];

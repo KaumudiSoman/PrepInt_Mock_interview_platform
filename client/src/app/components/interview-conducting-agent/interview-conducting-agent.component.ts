@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Interview } from 'src/app/_models/InterviewModel';
 import { User } from 'src/app/_models/UserModel';
+import { AttemptsService } from 'src/app/_services/attempts.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { InterviewAgentService } from 'src/app/_services/interview-agent.service';
 import { InterviewFeedbackService } from 'src/app/_services/interview-feedback.service';
@@ -32,6 +33,7 @@ export class InterviewConductingAgentComponent implements OnInit {
   interviewId: string = "";
   interview: Interview | null = null;
   userEndedCall: boolean = false;
+  attempId: string = "";
 
   constructor(
     private agentService: InterviewAgentService,
@@ -42,7 +44,8 @@ export class InterviewConductingAgentComponent implements OnInit {
     private utilService: UtilService,
     private feedbackService: InterviewFeedbackService,
     private toastrService: ToastrService,
-    private secretsService: SecretsService
+    private secretsService: SecretsService,
+    private attemptsService: AttemptsService
   ) {
     this.loggedInUser = this.authService.getCurrentUser();
     this.getSecrets();
@@ -62,6 +65,7 @@ export class InterviewConductingAgentComponent implements OnInit {
       if (this.userEndedCall) {
         this.router.navigateByUrl('');
       } else {
+        this.createAttempt(this.interviewId);
         this.createFeedback(this.messages);
       }
       this.userEndedCall = false;
@@ -101,6 +105,7 @@ export class InterviewConductingAgentComponent implements OnInit {
     this.interviewService.getInterviewById(intId).subscribe({
       next: (response: any) => {
         this.interview = response.data;
+        this.getAttempts(this.interview!);
       }
     });
   }
@@ -140,15 +145,38 @@ export class InterviewConductingAgentComponent implements OnInit {
     return this.utilService.formatTechStack(techstack);
   }
 
+  createAttempt(interviewId: string) {
+    this.attemptsService.createAttempt(interviewId).subscribe({
+      next: (response: any) => {
+        this.attempId = response.data._id;
+      },
+      error: error => {
+        this.toastrService.error(error.message);
+      }
+    });
+  }
+
   createFeedback(transcript: { role: string; content: string }[]) {
     let inputbody = {
       interviewId: this.interviewId,
       userId: this.loggedInUser._id,
+      attempId: this.attempId,
       transcript: transcript
     }
     this.feedbackService.createFeedback(inputbody).subscribe({
       next: (response: any) => this.router.navigateByUrl(`interview-feedback/${response.data._id}`),
       error: error => this.toastrService.error(error.message)
+    });
+  }
+
+  getAttempts(interview: Interview) {
+    this.attemptsService.getAttemptsCount(interview._id).subscribe({
+      next: (response: any) => {
+        interview.attempts = response.data;
+      },
+      error: error => {
+        this.toastrService.error(error.message);
+      }
     });
   }
 }

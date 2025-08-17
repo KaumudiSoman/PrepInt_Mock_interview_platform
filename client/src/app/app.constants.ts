@@ -13,6 +13,9 @@ export const APIResources = {
     getMyInterviews: '/my-interviews',
     getFavoriteInterviews: '/favorite-interviews',
     feedback: '/feedback',
+    attempts: '/attempts',
+    attemptCount: '/count',
+    attemptNumber: '/number',
 
     userInteractions: '/user-interactions',
 
