@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const AWS = require('aws-sdk');
 const { promisify } = require('util');
 const User = require('./../models/userModel');
 const emailController = require('./emailController')
@@ -15,26 +16,43 @@ const refreshToken = id => {
     return jwt.sign({ id }, process.env.JWT_REFRESH_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRES_IN });
 }
 
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
+
 exports.signup = async (req, res) => {
     try {
-        
+        let fileUrl = null;
+        if (req.file) {
+            const params = {
+                Bucket: process.env.S3_BUCKET_NAME,
+                Key: `profile-pics/${Date.now()}-${req.file.originalname}`,
+                Body: req.file.buffer,
+                ContentType: req.file.mimetype,
+            };
+            const uploadResult = await s3.upload(params).promise();
+            fileUrl = uploadResult.Location;
+        }
+
         const newUser = await User.create({
-            username: req.body.username,
+            username: req.body.userName,
             email: req.body.email,
             contactNo: req.body.contactNo,
+            profileImage: fileUrl,
             password: req.body.password
         });
 
         const token = signInToken(newUser._id);
+
         emailController.sendEmail(req.body.email, 'Email Verification', 
             `Please click on following link to verify your email ${process.env.WEBSITE_URL}/verify-email/${token}`)
 
         res.status(201).json({
             status: 'success',
             token,
-            data: {
-                newUser
-            }
+            data: {newUser}
         });
         
     }

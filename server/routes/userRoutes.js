@@ -1,11 +1,15 @@
 const express = require('express');
+const multer = require('multer');
 const userController = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
 const emailController = require('./../controllers/emailController')
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
 const router = express.Router();
 
-router.route('/signup').post(authController.signup);
+router.route('/signup').post(upload.single('profilePic'), authController.signup);
 router.get('/verification/:token', emailController.verifyEmail);
 router.route('/login').post(authController.login);
 router.route('/logout').get(authController.logout);

@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 export class SignupComponent {
   signupForm: FormGroup = new FormGroup({});
   signedup: Boolean = false;
+  selectedFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -28,19 +29,33 @@ export class SignupComponent {
       email: ['', [Validators.required, Validators.email]],
       contactNo: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
-    })
+    });
   }
 
-  signup() {
+  onFileSelected(event: any) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+    // if (this.selectedFile) {
+    //   this.signupForm.patchValue({ profilePic: file });
+    //   this.signupForm.get('profilePic')?.updateValueAndValidity();
+    // }
+  }
+
+  async signup() {
     const formValue = this.signupForm.value;
     
-    let inputbody = {
-      username: String(formValue.userName),
-      email: String(formValue.email),
-      contactNo: String(formValue.contactNo),
-      password: String(formValue.password),
+    const formData = new FormData();
+    formData.append('userName', formValue.userName);
+    formData.append('email', formValue.email);
+    formData.append('contactNo', formValue.contactNo);
+    formData.append('password', formValue.password);
+    if (this.selectedFile) {
+      formData.append('profilePic', this.selectedFile);
     }
-    this.authService.signup(inputbody).subscribe({
+
+    this.authService.signup(formData).subscribe({
       next: (response: any) => {
         this.signedup = true;
       },

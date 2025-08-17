@@ -13,13 +13,15 @@ export class InterviewCardGridComponent {
   @Input() title!: string;
   @Input() interviews: Interview[] = [];
   @Input() user: boolean = false;
+  popup: boolean = false;
 
   @Output() startInterview = new EventEmitter<string>();
   @Output() thumbsUp = new EventEmitter<any>();
   @Output() thumbsDown = new EventEmitter<any>();
   @Output() favorite = new EventEmitter<any>();
-  @Output() delete = new EventEmitter<string>();
+  // @Output() delete = new EventEmitter<string>();
   @Output() onCreate = new EventEmitter<void>();
+  @Output() requestDelete = new EventEmitter<string>();
 
   loggedInUser: User = {} as User;
 
@@ -36,5 +38,10 @@ export class InterviewCardGridComponent {
 
   formatTechStack(techstack: string[]): string {
     return this.utilService.formatTechStack(techstack);
+  }
+
+  openPopup(interviewId: string) {
+    // this.popup = true;
+    this.requestDelete.emit(interviewId);
   }
 }

@@ -1,4 +1,4 @@
-<div class="user-interviews" *ngIf="interviews.length > 0">
+<div class="user-interviews">
   <h4 class="ps-5 text-body">{{ title }}</h4>
   <div class="user-interview-grid">
     <div class="card" *ngFor="let interview of interviews">
@@ -32,7 +32,7 @@
           </button>
 
           <!-- Delete -->
-          <button class="btn btn-outline-danger" (click)="delete.emit(interview._id)" *ngIf="loggedInUser._id === interview.userId">
+          <button class="btn btn-outline-danger" (click)="openPopup(interview._id)" *ngIf="loggedInUser._id === interview.userId">
             <i class="fa fa-trash"></i>
           </button>
 

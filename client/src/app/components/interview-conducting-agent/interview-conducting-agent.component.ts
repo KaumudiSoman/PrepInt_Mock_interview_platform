@@ -112,7 +112,7 @@ export class InterviewConductingAgentComponent implements OnInit {
 
   startCall() {
     if (this.agentService.isActive()) {
-      console.log('Another call is already active');
+      this.toastrService.error('Another call is already active');
       return;
     }
 

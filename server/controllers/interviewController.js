@@ -116,14 +116,7 @@ exports.getUserInterviews = async (req, res) => {
 
 exports.deleteInterviewById = async(req, res) => {
   try {
-    const interview = await Interview.findByIdAndDelete(req.params.id);
-
-    if(req.user.id !== interview.userId) {
-      return res.status(403).json({
-        status: 'fail',
-        error: 'Users can only delete their own interviews'
-      });
-    }
+    const interview = await Interview.findById(req.params.id);
 
     if(!interview) {
       return res.status(404).json({
@@ -131,6 +124,15 @@ exports.deleteInterviewById = async(req, res) => {
           error: `Interview with id ${req.params.id} not found`
       });
     }
+
+    if(req.user.id !== interview.userId.toString()) {
+      return res.status(403).json({
+        status: 'fail',
+        error: 'Users can only delete their own interviews'
+      });
+    }
+
+    await Interview.findByIdAndDelete(req.params.id);
 
     return res.status(200).json({
         status: 'success',
@@ -161,7 +163,7 @@ exports.getFavoriteInterviews = async(req, res) => {
     return res.status(200).json({
       status: 'success',
       data: interviews
-    })
+    });
   }
   catch (error) {
     return res.status(500).json({

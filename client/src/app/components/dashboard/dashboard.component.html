@@ -6,7 +6,7 @@
   (thumbsUp)="toggleThumbsUp($event)"
   (thumbsDown)="toggleThumbsDown($event)"
   (favorite)="toggleFavorite($event)"
-  (delete)="deleteInterview($event)"
+  (requestDelete)="onRequestDelete($event)"
   (onCreate)="onCreate()">
 </app-interview-card-grid>
 
@@ -18,5 +18,13 @@
   (thumbsUp)="toggleThumbsUp($event)"
   (thumbsDown)="toggleThumbsDown($event)"
   (favorite)="toggleFavorite($event)"
-  (delete)="deleteInterview($event)">
+  (requestDelete)="onRequestDelete($event)">
 </app-interview-card-grid>
+
+<app-confirmation-dialog
+  [title]="'Delete Interview'"
+  [message]="'Are you sure you want to delete this interview?'"
+  [visible]="popupInterviewId !== null"
+  (confirm)="deleteInterview()"
+  (cancel)="closePopup()">
+</app-confirmation-dialog>

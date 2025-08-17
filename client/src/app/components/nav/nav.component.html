@@ -30,26 +30,10 @@
   </div>
 </nav>
 
-<!-- Backdrop and Modal Wrapper -->
-<div class="modal-backdrop show" *ngIf="popup" (click)="popup = false"></div>
-
-<!-- Modal Dialog -->
-<div class="modal d-flex justify-content-center align-items-center" *ngIf="popup">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Delete Account</h5>
-        <button type="button" class="btn-close" (click)="popup = false">
-          <span aria-hidden="true"></span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Are you sure you want to delete your account?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="deleteUser()">Delete</button>
-        <button type="button" class="btn btn-secondary" (click)="popup = false">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+<app-confirmation-dialog
+  [title]="'Delete Account'"
+  [message]="'Are you sure you want to delete your account?'"
+  [visible]="popup"
+  (confirm)="deleteUser()"
+  (cancel)="closePopup()">
+</app-confirmation-dialog>

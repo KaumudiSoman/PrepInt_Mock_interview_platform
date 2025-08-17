@@ -12,6 +12,7 @@ import { InterviewService } from 'src/app/_services/interview.service';
 })
 export class FavoriteInterviewsComponent implements OnInit {
   favoriteInterviews: Interview[] = [];
+  popupInterviewId: string | null = null;
 
   constructor(
     private interviewService: InterviewService,
@@ -76,14 +77,17 @@ export class FavoriteInterviewsComponent implements OnInit {
     });
   }
 
-  deleteInterview(interviewId: string) {
-    this.interviewActionsService.deleteInterview(interviewId).subscribe({
-      next: (response: any) => {
-        this.toastrService.success(response.message);
-        this.getFavoriteInterviews();
-      },
-      error: err => this.toastrService.error(err.message)
-    });
+  deleteInterview() {
+    if(this.popupInterviewId) {
+      this.interviewActionsService.deleteInterview(this.popupInterviewId).subscribe({
+        next: (response: any) => {
+          this.toastrService.success(response.message);
+          this.getFavoriteInterviews();
+        },
+        error: err => this.toastrService.error(err.message)
+      });
+    }
+    this.popupInterviewId = null;
   }
 
   getAttempts(interview: Interview) {
@@ -95,5 +99,13 @@ export class FavoriteInterviewsComponent implements OnInit {
         this.toastrService.error(error.message);
       }
     });
+  };
+
+  onRequestDelete(interviewId: string) {
+    this.popupInterviewId = interviewId;
+  };
+
+  closePopup() {
+    this.popupInterviewId = null;
   }
 }

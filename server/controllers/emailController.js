@@ -31,11 +31,9 @@ exports.sendEmail = async(receiver, subject, message) => {
 exports.verifyEmail = async (req, res) => {
     try {
         const token = req.params.token;
-        console.log(token)
 
         // Decode and verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        console.log('decoded: ', decoded) // Use the same secret key
 
         // Find the user by email (which was encoded in the token)
         const user = await User.findOne({ _id: decoded.id });

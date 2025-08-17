@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
   allInterviews: Interview[] = [];
   userInterviews: Interview[] = [];
   loggedInUser: User = {} as User;
+  popupInterviewId: string | null = null;
 
   constructor(
     private interviewService: InterviewService,
@@ -54,7 +55,6 @@ export class DashboardComponent implements OnInit {
           this.interviewActionsService.getUserInteraction(interview);
           this.getAttempts(interview);
         });
-        console.log(this.userInterviews);
       },
       error: error => {
         this.toastrService.error(error.message);
@@ -102,15 +102,18 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  deleteInterview(interviewId: string) {
-    this.interviewActionsService.deleteInterview(interviewId).subscribe({
-      next: (response: any) => {
-        this.toastrService.success(response.message);
-        this.getAllInterviews();
-        this.getUserInterviews();
-      },
-      error: err => this.toastrService.error(err.message)
-    });
+  deleteInterview() {
+    if(this.popupInterviewId) {
+      this.interviewActionsService.deleteInterview(this.popupInterviewId).subscribe({
+        next: (response: any) => {
+          this.toastrService.success(response.message);
+          this.getAllInterviews();
+          this.getUserInterviews();
+        },
+        error: err => this.toastrService.error(err.message)
+      });
+    }
+    this.popupInterviewId = null;
   };
 
   onCreate() {
@@ -126,5 +129,13 @@ export class DashboardComponent implements OnInit {
         this.toastrService.error(error.message);
       }
     });
+  };
+
+  onRequestDelete(interviewId: string) {
+    this.popupInterviewId = interviewId;
+  };
+
+  closePopup() {
+    this.popupInterviewId = null;
   }
 }

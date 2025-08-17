@@ -23,6 +23,7 @@ import { InterviewConductingAgentComponent } from './components/interview-conduc
 import { InterviewFeedbackComponent } from './components/interview-feedback/interview-feedback.component';
 import { AuthErrorInterceptor } from './_interceptors/auth-error.interceptor';
 import { FeedbacksComponent } from './components/feedbacks/feedbacks.component';
+import { ConfirmationDialogComponent } from './components/custom-components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { FeedbacksComponent } from './components/feedbacks/feedbacks.component';
     InterviewCardGridComponent,
     InterviewConductingAgentComponent,
     InterviewFeedbackComponent,
-    FeedbacksComponent
+    FeedbacksComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,

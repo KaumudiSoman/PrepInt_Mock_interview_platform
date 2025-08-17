@@ -1,0 +1,23 @@
+<!-- Backdrop and Modal Wrapper -->
+<div class="modal-backdrop show" *ngIf="visible" (click)="onCancel()"></div>
+
+<!-- Modal Dialog -->
+<div class="modal d-flex justify-content-center align-items-center" *ngIf="visible">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ title }}</h5>
+        <button type="button" class="btn-close" (click)="onCancel()">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{ message }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="onConfirm()">{{ action }}</button>
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -28,11 +28,10 @@ export class AuthService {
 
   currentUser: User = {} as User;
 
-  signup(body: any) {
+  signup(body: FormData) {
     return this.http.post(APIResources.baseUrl + APIResources.users + APIResources.signup, body).pipe(
       map((response: any) => {
         if(response) {
-          console.log(response);
           this.currentUser = response.user;
           this.currentUserSource.next(this.currentUser);
           localStorage.setItem('loggedInUser', JSON.stringify(response.data.newUser));
@@ -46,7 +45,6 @@ export class AuthService {
     return this.http.post(APIResources.baseUrl + APIResources.users + APIResources.login, body).pipe(
       map((response: any) => {
         if(response) {
-          console.log(response);
           this.currentUser = response.user;
           this.currentUserSource.next(this.currentUser);
           localStorage.setItem('loggedInUser', JSON.stringify(response.user));
@@ -77,8 +75,7 @@ export class AuthService {
       if(user) {
         this.currentUser = user
       }
-    })
-    console.log('account service, get current user : ', this.currentUser)
+    });
     return this.currentUser;
   }
 

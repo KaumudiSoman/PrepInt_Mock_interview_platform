@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="feedbacks.length > 0">
   <div class="feedback-list" *ngFor="let feedback of feedbacks">
     <a [href]="'/interview-feedback/' + feedback._id" class="feedback-card">
       <div class="feedback-header">
@@ -17,3 +17,5 @@
     </a>
   </div>
 </div>
+
+<p class="text-center mt-5" *ngIf="feedbacks.length === 0">No feedbacks yet</p>

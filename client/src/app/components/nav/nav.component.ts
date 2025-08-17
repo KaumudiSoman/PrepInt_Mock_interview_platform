@@ -35,6 +35,10 @@ export class NavComponent {
     this.popup = true;
   }
 
+  closePopup() {
+    this.popup = false;
+  }
+
   deleteUser() {
     this.authService.deleteUser(this.loggedInUser._id).subscribe({
       next: () => {
