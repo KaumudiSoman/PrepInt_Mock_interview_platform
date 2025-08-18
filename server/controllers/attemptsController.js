@@ -18,7 +18,7 @@ exports.createAttempt = async(req, res) => {
     catch (error) {
         return res.status(500).json({
             status: 'fail',
-            error: error.message
+            error: error?.message || error || 'Unknown Error'
         });
     }
 };
@@ -40,7 +40,7 @@ exports.getAttemptCount = async(req, res) => {
     catch (error) {
         return res.status(500).json({
             status: 'fail',
-            error: error.message
+            error: error?.message || error || 'Unknown Error'
         });
     }
 };
@@ -68,10 +68,10 @@ exports.getAttemptNumber = async (req, res) => {
       data: attemptNumber
     });
 
-  } catch (err) {
+  } catch (error) {
     return res.status(500).json({
         status: "fail",
-        error: err.message
+        error: error?.message || error || 'Unknown Error'
     });
   }
 };

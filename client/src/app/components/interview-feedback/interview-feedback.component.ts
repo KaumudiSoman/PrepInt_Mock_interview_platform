@@ -45,7 +45,7 @@ export class InterviewFeedbackComponent implements OnInit{
         this.getAttemptNumber(this.feedback?.interviewId!, this.feedback?.attemptId!);
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     });
   }
@@ -56,7 +56,7 @@ export class InterviewFeedbackComponent implements OnInit{
         this.interview = response.data;
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     });
   }
@@ -67,7 +67,7 @@ export class InterviewFeedbackComponent implements OnInit{
         this.attemptNumber = response.data;
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     });
   }

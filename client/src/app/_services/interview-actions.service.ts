@@ -37,7 +37,7 @@ export class InterviewActionsService {
         }
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     });
   };

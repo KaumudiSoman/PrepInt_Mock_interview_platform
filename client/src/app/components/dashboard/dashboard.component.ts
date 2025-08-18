@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit {
         });
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     })
   };
@@ -57,7 +57,7 @@ export class DashboardComponent implements OnInit {
         });
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     })
   };
@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit {
         this.getUserInterviews();
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     });
   }
@@ -85,7 +85,7 @@ export class DashboardComponent implements OnInit {
         this.getUserInterviews();
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     });
   }
@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit {
         this.getUserInterviews();
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     });
   }
@@ -126,7 +126,7 @@ export class DashboardComponent implements OnInit {
         interview.attempts = response.data;
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     });
   };

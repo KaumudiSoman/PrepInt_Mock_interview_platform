@@ -10,10 +10,10 @@ exports.getAllUsers = async (req, res) => {
             }
         });
     }
-    catch (err) {
+    catch (error) {
         res.status(500).json({
             status: 'fail',
-            message: err.message
+            error: error?.message || error || 'Unknown error'
         });
     }
 };
@@ -25,7 +25,7 @@ exports.getUser = async (req, res) => {
         if(!user) {
             res.status(404).json({
                 status: 'fail',
-                message: `User with id ${req.params.id} not found`
+                error: `User with id ${req.params.id} not found`
             });
         }
 
@@ -36,10 +36,10 @@ exports.getUser = async (req, res) => {
             }
         });
     }
-    catch (err) {
+    catch (error) {
         res.status(500).json({
             status: 'fail',
-            message: err.message
+            error: error?.message || error || 'Unknown error'
         });
     }
 };
@@ -51,7 +51,7 @@ exports.updateUser = async (req, res) => {
         if(!user) {
             res.status(404).json({
                 status: 'fail',
-                message: `User with id ${req.params.id} not found`
+                error: `User with id ${req.params.id} not found`
             });
         }
 
@@ -62,10 +62,10 @@ exports.updateUser = async (req, res) => {
             }
         });
     }
-    catch (err) {
+    catch (error) {
         res.status(500).json({
             status: 'fail',
-            message: err.message
+            error: error?.message || error || 'Unknown error'
         });
     }
 };
@@ -77,7 +77,7 @@ exports.deleteUser = async (req, res) => {
         if(!user) {
             res.status(404).json({
                 status: 'fail',
-                message: `User with id ${req.params.id} not found`
+                error: `User with id ${req.params.id} not found`
             });
         }
 
@@ -86,10 +86,10 @@ exports.deleteUser = async (req, res) => {
             message: 'User record deleted successfully'
         });
     }
-    catch (err) {
+    catch (error) {
         res.status(500).json({
             status: 'fail',
-            message: err.message
+            error: error?.message || error || 'Unknown error'
         });
     }
 };

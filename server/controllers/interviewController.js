@@ -142,7 +142,7 @@ exports.deleteInterviewById = async(req, res) => {
   catch (error) {
     return res.status(500).json({
         status: 'fail',
-        error: error.message
+        error: error?.message || error || 'Unknown error'
     });
   }
 };

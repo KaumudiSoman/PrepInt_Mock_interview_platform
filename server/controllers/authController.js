@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const AWS = require('aws-sdk');
 const { promisify } = require('util');
 const User = require('./../models/userModel');
-const emailController = require('./emailController')
+const emailController = require('./emailController');
 
 const signInToken = id => {
     return jwt.sign({ id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRES_IN });
@@ -12,8 +12,8 @@ const passwordResetToken = id => {
     return jwt.sign({ id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.PASS_RESET_JWT_EXPIRES_IN });
 }
 
-const refreshToken = id => {
-    return jwt.sign({ id }, process.env.JWT_REFRESH_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRES_IN });
+const createRefreshToken = id => {
+    return jwt.sign({ id }, process.env.JWT_REFRESH_SECRET_KEY, { expiresIn: process.env.REFRESH_JWT_EXPIRES_IN });
 }
 
 const s3 = new AWS.S3({
@@ -45,6 +45,10 @@ exports.signup = async (req, res) => {
         });
 
         const token = signInToken(newUser._id);
+        const refresh = createRefreshToken(newUser._id);
+
+        newUser.refreshTokens.push(refresh);
+        await newUser.save();
 
         emailController.sendEmail(req.body.email, 'Email Verification', 
             `Please click on following link to verify your email ${process.env.WEBSITE_URL}/verify-email/${token}`)
@@ -52,37 +56,52 @@ exports.signup = async (req, res) => {
         res.status(201).json({
             status: 'success',
             token,
+            refresh,
             data: {newUser}
         });
         
     }
-    catch (err) {
+    catch (error) {
         res.status(500).json({
             status: 'fail',
-            message: err.message
+            error: error?.message || error || 'Unknown error'
         });
     }
 };
 
 exports.login = async (req, res) => {
-    const { email, password } = req.body;
+    try {
+        const { email, password } = req.body;
 
-    const user = await User.findOne({email});
+        const user = await User.findOne({email});
 
-    if(!user || !(await user.correctPassword(password, user.password))) {
-        res.status(401).json({
-            status: 'fail',
-            message: 'Incorrect email or password'
+        if(!user || !(await user.correctPassword(password, user.password))) {
+            return res.status(401).json({
+                status: 'fail',
+                error: 'Incorrect email or password'
+            });
+        }
+
+        const token = signInToken(user._id);
+        const refresh = createRefreshToken(user._id);
+
+        user.refreshTokens.push(refresh);
+        await user.save();
+
+
+        res.status(200).json({
+            status: 'success',
+            user,
+            token,
+            refresh
         });
     }
-
-    const token = signInToken(user._id);
-
-    res.status(200).json({
-        status: 'success',
-        user,
-        token
-    });
+    catch (error) {
+        return res.status(500).json({
+            status: 'error',
+            error: 'Something went wrong, please try again later.'
+        });
+    }
 };
 
 exports.protect = async (req, res, next) => {
@@ -97,7 +116,7 @@ exports.protect = async (req, res, next) => {
         // return res.redirect('/api/users/login');
         return res.status(401).json({
             status: 'fail',
-            message: 'Please log in to get access'
+            error: 'Please log in to get access'
         });
     }
 
@@ -111,7 +130,7 @@ exports.protect = async (req, res, next) => {
         if(!user) {
             return res.status(401).json({
                 status: 'fail',
-                message: 'User associated with this token no longer exists'
+                error: 'User associated with this token no longer exists'
             });
         }
 
@@ -119,39 +138,11 @@ exports.protect = async (req, res, next) => {
         req.user = user;
         next();
     }
-    catch (err) {
-        if (err.name === 'TokenExpiredError') {
-            const refreshToken = req.headers['x-refresh-token'];
-
-            if (!refreshToken) {
-                return res.status(401).json({ status: 'fail', message: 'Session expired. Please log in again.' });
-            }
-
-            try {
-                const decodedRefresh = await promisify(jwt.verify)(refreshToken, process.env.JWT_REFRESH_SECRET_KEY);
-
-                const user = await User.findById(decodedRefresh.id);
-                if (!user) {
-                    return res.status(401).json({
-                        status: 'fail',
-                        message: 'User associated with this token no longer exists'
-                    });
-                }
-
-                //Issue new tokens
-                const accessToken = signInToken(user._id);
-                const newRefreshToken = refreshToken(user._id);
-
-                res.setHeader('x-access-token', accessToken);
-                res.setHeader('x-refresh-token', newRefreshToken);
-
-                req.user = user;
-                return next();
-
-            } catch (refreshErr) {
-                return res.status(401).json({ status: 'fail', message: 'Refresh token expired. Please log in again.' });
-            }
-        }
+    catch (error) {
+        return res.status(401).json({
+            status: 'fail',
+            error: "Invalid or expired access token"
+        });
     }
 };
 
@@ -160,14 +151,14 @@ exports.verify = async(req, res, next) => {
         if (!req.user || !req.user.isVerified) {
             return res.status(403).json({
                 status: 'fail',
-                message: 'Please verify your email to proceed'
+                error: 'Please verify your email to proceed'
             });
         }
         next();
-    } catch (err) {
+    } catch (error) {
         return res.status(500).json({
             status: 'fail',
-            message: err.message
+            error: error?.message || error || 'Unknown error'
         });
     }
 }
@@ -178,7 +169,7 @@ exports.forgotPassword = async(req, res) => {
         if(!user) {
             return res.status(404).json({
                 status: 'fail',
-                message: 'Email not matched'
+                error: 'Email not matched'
             });
         }
 
@@ -191,10 +182,10 @@ exports.forgotPassword = async(req, res) => {
             message: 'email sent successfully'
         });
     }
-    catch (err) { 
+    catch (error) { 
         return res.status(500).json({
             status: 'fail',
-            message: err.message
+            error: error?.message || error || 'Unknown error'
         });
     }
 }
@@ -209,22 +200,22 @@ exports.resetPassword = async(req, res) => {
         if (!user) {
             return res.status(400).json({
                 status: 'fail',
-                message: 'User not found',
+                error: 'User not found',
             });
         }
 
         user.password = req.body.password;
-        user.save();
+        await user.save();
 
         return res.status(200).json({
             status: 'success',
             message: 'Password reset successfully'
         });
     }
-    catch (err) {
+    catch (error) {
         return res.status(500).json({
             status: 'fail',
-            message: err.message
+            error: error?.message || error || 'Unknown error'
         });
     }
 }
@@ -234,15 +225,73 @@ exports.hasPermission = (...roles) => {
         if(!roles.includes(req.user.role)) {
             return res.status(403).json({
                 status: 'fail',
-                message: 'You do not have permission to perform this action'
+                error: 'You do not have permission to perform this action'
             });
         }
         next();
     }
 };
 
-exports.logout = (req, res) => {
-    return res.status(200).json({
-        status: 'success',
-    })
+exports.logout = async(req, res) => {
+    try {
+        const refreshToken = req.headers["x-refresh-token"];
+        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET_KEY);
+
+        const user = await User.findById(decoded.id);
+        if (user) {
+        user.refreshTokens = user.refreshTokens.filter(t => t !== refreshToken);
+        await user.save();
+        }
+
+        return res.json({
+            status: 'success',
+            message: "Logged out successfully"
+        });
+    } catch (error) {
+        return res.status(400).json({
+            status: 'fail',
+            error: "Logout failed"
+        });
+    }
+};
+
+exports.refreshTokens = async(req, res) => {
+    try {
+        const currRefreshToken = req.headers['x-refresh-token'];
+        if (!currRefreshToken) {
+            return res.status(401).json({
+                status: 'fail',
+                error: 'Refresh token missing'
+            });
+        }
+
+        const decoded = jwt.verify(currRefreshToken, process.env.JWT_REFRESH_SECRET_KEY);
+
+        const user = await User.findById(decoded.id);
+        if (!user || !user.refreshTokens.includes(currRefreshToken)) {
+            return res.status(401).json({
+                status: 'fail',
+                error: 'User not found'
+            });
+        }
+
+        const newAccessToken = signInToken(user._id);
+        const newRefreshToken = createRefreshToken(user._id);
+
+        user.refreshTokens = user.refreshTokens.filter(t => t !== currRefreshToken);
+        user.refreshTokens.push(newRefreshToken);
+        await user.save();
+
+        return res.json({
+            status: 'success',
+            token: newAccessToken,
+            refresh: newRefreshToken
+        });
+    }
+    catch (error) {
+        return res.status(403).json({
+            status: 'fail',
+            error: 'Invalid or expired refresh token'
+        });
+    }
 };

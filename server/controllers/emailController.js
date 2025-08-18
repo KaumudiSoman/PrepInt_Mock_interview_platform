@@ -22,8 +22,8 @@ exports.sendEmail = async(receiver, subject, message) => {
     try {
         await transporter.sendMail(mailbody);
     }
-    catch (err) {
-        throw new Error(err);
+    catch (error) {
+        throw new Error(error);
     }
 }
 
@@ -41,7 +41,7 @@ exports.verifyEmail = async (req, res) => {
         if (!user) {
             return res.status(400).json({
                 status: 'fail',
-                message: 'User not found',
+                error: 'User not found',
             });
         }
 
@@ -53,10 +53,10 @@ exports.verifyEmail = async (req, res) => {
             status: 'success',
             message: 'Email verified successfully! You can now log in.',
         });
-    } catch (err) {
+    } catch (error) {
         res.status(500).json({
             status: 'fail',
-            message: err.message,
+            error: error?.message || error || 'Unknown error',
         });
     }
 };

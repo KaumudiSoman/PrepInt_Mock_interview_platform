@@ -151,7 +151,7 @@ export class InterviewConductingAgentComponent implements OnInit {
         this.attempId = response.data._id;
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     });
   }
@@ -165,7 +165,7 @@ export class InterviewConductingAgentComponent implements OnInit {
     }
     this.feedbackService.createFeedback(inputbody).subscribe({
       next: (response: any) => this.router.navigateByUrl(`interview-feedback/${response.data._id}`),
-      error: error => this.toastrService.error(error.message)
+      error: error => this.toastrService.error(error.error?.error || error.message)
     });
   }
 
@@ -175,7 +175,7 @@ export class InterviewConductingAgentComponent implements OnInit {
         interview.attempts = response.data;
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     });
   }

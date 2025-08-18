@@ -35,7 +35,7 @@ app.use('/api/secrets', secretsRouter);
 app.all('*', (req, res) => {
     res.status(404).json({
         status: 'fail',
-        message: 'path not found'
+        error: 'path not found'
     });
 });
 

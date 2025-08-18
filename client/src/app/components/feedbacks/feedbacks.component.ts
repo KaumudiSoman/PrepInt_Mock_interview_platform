@@ -34,13 +34,13 @@ export class FeedbacksComponent implements OnInit {
               feedback.interview = response.data;
             },
             error: error => {
-              this.toastrService.error(error.message);
+              this.toastrService.error(error.error?.error || error.message);
             }
           });
         });
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     });
   }

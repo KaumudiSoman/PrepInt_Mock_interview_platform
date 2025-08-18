@@ -35,7 +35,8 @@ export class AuthService {
           this.currentUser = response.user;
           this.currentUserSource.next(this.currentUser);
           localStorage.setItem('loggedInUser', JSON.stringify(response.data.newUser));
-          localStorage.setItem('authToken', JSON.stringify(response.token));
+          localStorage.setItem('authToken', response.token);
+          localStorage.setItem('refreshToken', response.refresh);
         }
       })
     );
@@ -48,17 +49,20 @@ export class AuthService {
           this.currentUser = response.user;
           this.currentUserSource.next(this.currentUser);
           localStorage.setItem('loggedInUser', JSON.stringify(response.user));
-          localStorage.setItem('authToken', JSON.stringify(response.token));
+          localStorage.setItem('authToken', response.token);
+          localStorage.setItem('refreshToken', response.refresh);
         }
       })
     )
   }
 
   logout() {
+    const refreshToken = localStorage.getItem('refreshToken');
     this.setCurrentUser(null);
     localStorage.removeItem('loggedInUser');
     localStorage.removeItem('authToken');
-    return this.http.get(APIResources.baseUrl + APIResources.users + APIResources.logout)
+    localStorage.removeItem('refreshToken');
+    return this.http.get(APIResources.baseUrl + APIResources.users + APIResources.logout, {headers: { 'x-refresh-token': refreshToken || '' }});
   }
 
   setCurrentUser(user: User | null) {
@@ -94,5 +98,10 @@ export class AuthService {
   deleteUser(userId: String) {
     const headers = this.utilService.setAuthHeader();
     return this.http.delete(APIResources.baseUrl + APIResources.users + `/${userId}`, {headers});
+  }
+
+  refreshTokens(refresh: any) {
+    const headers = { 'x-refresh-token': refresh };
+    return this.http.get(APIResources.baseUrl + APIResources.users + APIResources.RefreshTokens, {headers});
   }
 }

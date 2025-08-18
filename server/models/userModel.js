@@ -32,17 +32,14 @@ const userSchema = new mongoose.Schema({
     },
     profileImage: {
         type: String,
-        default: "https://prepint-images.s3.ap-south-1.amazonaws.com/default-profile.jpg"
+        default: "https://prepint-images.s3.ap-south-1.amazonaws.com/profile-pics/default-profile.jpg"
     },
     isVerified: {
         type: Boolean,
         default: false
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-});
+    refreshTokens: [String]
+}, { timestamps: true });
 
 userSchema.pre('save', async function(next) {
     if(!this.isModified('password')) return next();

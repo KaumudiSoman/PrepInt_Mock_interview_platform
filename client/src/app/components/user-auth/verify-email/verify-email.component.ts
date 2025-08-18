@@ -30,8 +30,8 @@ export class VerifyEmailComponent implements OnInit {
           this.router.navigateByUrl('');
       }, 5000);
       },
-      error: (err) => {
-        this.toastrService.error(err.message.message)
+      error: (error) => {
+        this.toastrService.error(error.error?.error || error.message);
       }
     })
   }

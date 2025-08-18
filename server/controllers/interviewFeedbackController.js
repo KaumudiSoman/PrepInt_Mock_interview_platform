@@ -89,7 +89,7 @@ exports.getFeedbackById = async(req, res) => {
         if(!feedback) {
             return res.status(404).json({
                 status: 'fail',
-                message: 'Feedback not found'
+                error: 'Feedback not found'
             });
         }
 
@@ -113,7 +113,7 @@ exports.getAllFeedbacks = async(req, res) => {
         if(!feedbacks) {
             return res.status(404).json({
                 status: 'fail',
-                message: 'Feedbacks not found'
+                error: 'Feedbacks not found'
             });
         }
 

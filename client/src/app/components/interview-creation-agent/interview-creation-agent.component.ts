@@ -36,6 +36,7 @@ export class InterviewCreationAgentComponent implements OnInit {
     private utilService: UtilService
   ) {
     this.loggedInUser = this.authService.getCurrentUser();
+    console.log("prof", this.loggedInUser.profileImage)
     this.getSecrets();
   }
 

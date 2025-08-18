@@ -50,7 +50,7 @@ export class FavoriteInterviewsComponent implements OnInit {
         this.getFavoriteInterviews();
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     });
   }
@@ -61,7 +61,7 @@ export class FavoriteInterviewsComponent implements OnInit {
         this.getFavoriteInterviews();
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     });
   }
@@ -72,7 +72,7 @@ export class FavoriteInterviewsComponent implements OnInit {
         this.getFavoriteInterviews();
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     });
   }
@@ -96,7 +96,7 @@ export class FavoriteInterviewsComponent implements OnInit {
         interview.attempts = response.data;
       },
       error: error => {
-        this.toastrService.error(error.message);
+        this.toastrService.error(error.error?.error || error.message);
       }
     });
   };
