@@ -13,13 +13,23 @@ export class UserInteracationService {
     private http: HttpClient
   ) { }
 
-  getUserInteraction(interviewId: string) {
+  getInterviewInteraction(interviewId: string) {
     const headers = this.utilService.setAuthHeader();
-    return this.http.get(APIResources.baseUrl + APIResources.userInteractions + `/${interviewId}`, {headers});
+    return this.http.get(APIResources.baseUrl + APIResources.userInteractions + APIResources.interview + `/${interviewId}`, {headers});
   }
 
-  updateUserInteraction(interviewId: string, inputbody: any) {
+  updateInterviewInteraction(interviewId: string, inputbody: any) {
     const headers = this.utilService.setAuthHeader();
-    return this.http.put(APIResources.baseUrl + APIResources.userInteractions + `/${interviewId}`, inputbody, {headers});
+    return this.http.put(APIResources.baseUrl + APIResources.userInteractions + APIResources.interview + `/${interviewId}`, inputbody, {headers});
+  }
+
+  getNoteInteraction(noteId: string) {
+    const headers = this.utilService.setAuthHeader();
+    return this.http.get(APIResources.baseUrl + APIResources.userInteractions + APIResources.note + `/${noteId}`, {headers});
+  }
+
+  updateNoteInteraction(noteId: string, inputbody: any) {
+    const headers = this.utilService.setAuthHeader();
+    return this.http.put(APIResources.baseUrl + APIResources.userInteractions + APIResources.note + `/${noteId}`, inputbody, {headers});
   }
 }

@@ -1,9 +1,9 @@
 <app-interview-card-grid
-  title="Your Interviews"
-  [data]="userInterviews"
+  title="Your Notes"
+  [data]="userNotes"
   [user]="true"
-  [cardType]="'Interview'"
-  (start)="startInterview($event)"
+  [cardType]="'Note'"
+  (start)="openNote($event)"
   (thumbsUp)="toggleThumbsUp($event)"
   (thumbsDown)="toggleThumbsDown($event)"
   (favorite)="toggleFavorite($event)"
@@ -12,21 +12,22 @@
 </app-interview-card-grid>
 
 <app-interview-card-grid
-  title="Other Interviews"
-  [data]="allInterviews"
+  title="Other Notes"
+  [data]="allNotes"
   [user]="false"
-  [cardType]="'Interview'"
-  (start)="startInterview($event)"
+  [cardType]="'Note'"
+  (start)="openNote($event)"
   (thumbsUp)="toggleThumbsUp($event)"
   (thumbsDown)="toggleThumbsDown($event)"
   (favorite)="toggleFavorite($event)"
-  (requestDelete)="onRequestDelete($event)">
+  (requestDelete)="onRequestDelete($event)"
+  (onCreate)="onCreate()">
 </app-interview-card-grid>
 
 <app-confirmation-dialog
-  [title]="'Delete Interview'"
-  [message]="'Are you sure you want to delete this interview?'"
-  [visible]="popupInterviewId !== null"
-  (confirm)="deleteInterview()"
+  [title]="'Delete Note'"
+  [message]="'Are you sure you want to delete this note?'"
+  [visible]="popupNoteId !== null"
+  (confirm)="deleteNote()"
   (cancel)="closePopup()">
 </app-confirmation-dialog>

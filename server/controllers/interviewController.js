@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 const { google } = require("@ai-sdk/google");
 const { generateText } = require("ai");
 const Interview = require("../models/interviewModel");
-const UserInteraction = require("../models/userInteractionModel");
+const UserInteraction = require("../models/interviewInteractionModel");
 const { getRandomInterviewCover } = require("./utilController");
 
 const googleModel = google("gemini-2.0-flash-001", {
   apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
 });
 
-exports.getQuestions = async (req, res) => {
+exports.getQuestions = async (req, res, next) => {
   const { type, role, level, techstack, amount, userId } = req.body;
 
   try {
@@ -46,14 +46,11 @@ exports.getQuestions = async (req, res) => {
     });
   }
   catch (error) {
-    res.status(500).json({
-        status: 'fail',
-        error: error.message
-    });
+    return next(error);
   }
 };
 
-exports.getAllInterviews = async (req, res) => {
+exports.getAllInterviews = async (req, res, next) => {
   try {
     const interviews = await Interview.aggregate([
       { $match: { userId: { $ne : new mongoose.Types.ObjectId(req.user.id) } } },
@@ -71,10 +68,9 @@ exports.getAllInterviews = async (req, res) => {
     ]);  
 
     if(!interviews) {
-      return res.status(404).json({
-        status: 'fail',
-        error: 'Interviews not found'
-      });
+      const error = new Error('Interviews not found');
+      error.statusCode = 404;
+      return next(error); 
     }
 
     return res.status(200).json({
@@ -83,22 +79,18 @@ exports.getAllInterviews = async (req, res) => {
     });
   }
   catch (error) {
-    return res.status(500).json({
-        status: 'fail',
-        error: error.message
-    });
+    return next(error);
   }
 };
 
-exports.getUserInterviews = async (req, res) => {
+exports.getUserInterviews = async (req, res, next) => {
   try {
     const interviews = await Interview.find({userId: req.user.id});
 
     if(!interviews) {
-      return res.status(404).json({
-        status: 'fail',
-        error: 'Interviews not found'
-      });
+      const error = new Error('Interviews not found');
+      error.statusCode = 404;
+      return next(error); 
     }
 
     return res.status(200).json({
@@ -107,29 +99,24 @@ exports.getUserInterviews = async (req, res) => {
     });
   }
   catch (error) {
-    return res.status(500).json({
-        status: 'fail',
-        error: error.message
-    });
+    return next(error);
   }
 };
 
-exports.deleteInterviewById = async(req, res) => {
+exports.deleteInterviewById = async(req, res, next) => {
   try {
     const interview = await Interview.findById(req.params.id);
 
     if(!interview) {
-      return res.status(404).json({
-          status: 'fail',
-          error: `Interview with id ${req.params.id} not found`
-      });
+      const error = new Error(`Interview with id ${req.params.id} not found`);
+      error.statusCode = 404;
+      return next(error); 
     }
 
     if(req.user.id !== interview.userId.toString()) {
-      return res.status(403).json({
-        status: 'fail',
-        error: 'Users can only delete their own interviews'
-      });
+      const error = new Error('Users can only delete their own interviews');
+      error.statusCode = 403;
+      return next(error); 
     }
 
     await Interview.findByIdAndDelete(req.params.id);
@@ -140,14 +127,11 @@ exports.deleteInterviewById = async(req, res) => {
     });
   }
   catch (error) {
-    return res.status(500).json({
-        status: 'fail',
-        error: error?.message || error || 'Unknown error'
-    });
+    return next(error);
   }
 };
 
-exports.getFavoriteInterviews = async(req, res) => {
+exports.getFavoriteInterviews = async(req, res, next) => {
   try {
     const favoriteInteractions = await UserInteraction.find(
       { userId: req.user.id, isFavorite: true},
@@ -166,22 +150,18 @@ exports.getFavoriteInterviews = async(req, res) => {
     });
   }
   catch (error) {
-    return res.status(500).json({
-        status: 'fail',
-        error: error.message
-    });
+    return next(error);
   }
 };
 
-exports.getInterviewById = async(req, res) => {
+exports.getInterviewById = async(req, res, next) => {
   try {
     const interview = await Interview.findById(req.params.id);
 
     if(!interview) {
-      return res.status(404).json({
-        status: 'fail',
-        error: `Interview with Id ${req.params.id} not found`
-      });
+      const error = new Error(`Interview with Id ${req.params.id} not found`);
+      error.statusCode = 404;
+      return next(error); 
     }
 
     return res.status(200).json({
@@ -190,9 +170,6 @@ exports.getInterviewById = async(req, res) => {
     });
   }
   catch (error) {
-    return res.status(500).json({
-      status: 'fail',
-      error: error.message
-    });
+    return next(error);
   }
 };

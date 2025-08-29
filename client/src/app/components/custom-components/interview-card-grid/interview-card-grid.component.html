@@ -1,28 +1,28 @@
 <div class="user-interviews">
   <h4 class="ps-5 text-body">{{ title }}</h4>
   <div class="user-interview-grid">
-    <div class="card" *ngFor="let interview of interviews">
-      <div class="attempt-tag" *ngIf="interview.attempts > 0">
+    <div class="card" *ngFor="let item of data">
+      <div class="attempt-tag" *ngIf="'attempts' in item && item.attempts > 0">
         Attempted
       </div>
       <div class="card-body">
         <div class="interview-info">
           <div class="title-row">
-            <h2>{{ toCamelCase(interview.role) }} Interview</h2>
-            <span class="date">{{ interview.createdAt | date: 'dd/MM/yyyy' }}</span>
+            <h2>{{ toCamelCase(item.role) }} {{ toCamelCase(cardType) }}</h2>
+            <span class="date">{{ item.createdAt | date: 'dd/MM/yyyy' }}</span>
           </div>
           
-          <p><span class="label">Type:</span> {{ toCamelCase(interview.type) }}</p>
-          <p><span class="label">Level:</span> {{ toCamelCase(interview.level) }}</p>
-          <p><span class="label">Stack:</span> {{ formatTechStack(interview.techstack) }}</p>
+          <p><span class="label">Type:</span> {{ toCamelCase(item.type) }}</p>
+          <p><span class="label">Level:</span> {{ toCamelCase(item.level) }}</p>
+          <p><span class="label">Stack:</span> {{ formatTechStack(item.techstack) }}</p>
         </div>
 
         <div class="card-button-div">
-          <button class="btn btn-primary" (click)="startInterview.emit(interview._id)">Start</button>
+          <button class="btn btn-primary" (click)="start.emit(item._id)">{{ buttonTitle }}</button>
 
           <!-- Star Button -->
-          <button class="icon-button" (click)="favorite.emit(interview)">
-            <svg [ngClass]="{ 'filled-star': interview.isFavorite, 'empty-star': !interview.isFavorite }"
+          <button class="icon-button" (click)="favorite.emit(item)">
+            <svg [ngClass]="{ 'filled-star': item.isFavorite, 'empty-star': !item.isFavorite }"
               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
               <path
                 d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.834 
@@ -32,14 +32,14 @@
           </button>
 
           <!-- Delete -->
-          <button class="btn btn-outline-danger" (click)="openPopup(interview._id)" *ngIf="loggedInUser._id === interview.userId">
+          <button class="btn btn-outline-danger" (click)="openPopup(item._id)" *ngIf="loggedInUser._id === item.userId">
             <i class="fa fa-trash"></i>
           </button>
 
           <!-- Thumbs Up -->
           <div class="thumbs-div">
-            <button class="icon-button" (click)="thumbsUp.emit(interview)">
-                <svg [ngClass]="{ 'filled-up': interview.isThumbsUp, 'empty-up': !interview.isThumbsUp }"
+            <button class="icon-button" (click)="thumbsUp.emit(item)">
+                <svg [ngClass]="{ 'filled-up': item.isThumbsUp, 'empty-up': !item.isThumbsUp }"
                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
                 <path
                     d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.31l.95-4.57 
@@ -48,13 +48,13 @@
                     0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73V10z" />
                 </svg>
             </button>
-            <span class="text-secondary">{{ interview.upvoteCount }}</span>
+            <span class="text-secondary">{{ item.upvoteCount }}</span>
           </div>
 
           <!-- Thumbs Down -->
           <div class="thumbs-div">
-            <button class="icon-button" (click)="thumbsDown.emit(interview)">
-                <svg [ngClass]="{ 'filled-down': interview.isThumbsDown, 'empty-down': !interview.isThumbsDown }"
+            <button class="icon-button" (click)="thumbsDown.emit(item)">
+                <svg [ngClass]="{ 'filled-down': item.isThumbsDown, 'empty-down': !item.isThumbsDown }"
                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
                 <path
                     d="M22 3h-4v12h4V3zM2 14c0 1.1.9 2 2 2h6.31l-.95 
@@ -62,7 +62,7 @@
                     0-1.54.5-1.84 1.22L2.14 11.27c-.09.23-.14.47-.14.73v2z" />
                 </svg>
             </button>
-            <span class="text-secondary">{{ interview.downvoteCount }}</span>
+            <span class="text-secondary">{{ item.downvoteCount }}</span>
           </div>
         </div>
       </div>

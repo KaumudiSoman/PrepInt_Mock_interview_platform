@@ -24,7 +24,8 @@ export class AuthErrorInterceptor implements HttpInterceptor {
         if (error.status === 401) {
           const refreshToken = localStorage.getItem('refreshToken');
           if (!refreshToken) {
-            this.router.navigate(['/login']);
+            console.log('redirecting to login');
+            this.authService.forceLogout();
             return throwError(() => error);
           }
 
@@ -46,7 +47,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
               return next.handle(newReq);
             }),
             catchError(refreshError => {
-              this.router.navigate(['/login']);
+              this.authService.forceLogout();
               return throwError(() => refreshError);
             })
           );

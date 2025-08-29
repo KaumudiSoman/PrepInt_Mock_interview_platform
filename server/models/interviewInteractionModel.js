@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const userInteractionSchema = new mongoose.Schema({
+const interviewInteractionSchema = new mongoose.Schema({
   interviewId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Interview',
@@ -19,11 +19,10 @@ const userInteractionSchema = new mongoose.Schema({
   voteType: {
     type: String,
     enum: ['UP', 'DOWN'],
-    required: true,
     default: null
   }
 }, { timestamps: true });
 
-userInteractionSchema.index({ userId: 1, interviewId: 1 }, { unique: true });
+interviewInteractionSchema.index({ userId: 1, interviewId: 1 }, { unique: true });
 
-module.exports = mongoose.model('UserInteraction', userInteractionSchema);
+module.exports = mongoose.model('InterviewInteraction', interviewInteractionSchema);

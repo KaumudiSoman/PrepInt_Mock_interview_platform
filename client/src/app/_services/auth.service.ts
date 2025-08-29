@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { APIResources } from '../app.constants';
 import { User } from '../_models/UserModel';
 import { UtilService } from './util.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private utilService: UtilService
+    private utilService: UtilService,
+    private router: Router
   ) {
     const storedUser = localStorage.getItem('currentUser');
     if (storedUser) {
@@ -63,6 +65,15 @@ export class AuthService {
     localStorage.removeItem('authToken');
     localStorage.removeItem('refreshToken');
     return this.http.get(APIResources.baseUrl + APIResources.users + APIResources.logout, {headers: { 'x-refresh-token': refreshToken || '' }});
+  }
+
+  forceLogout() {
+    // For interceptor or token errors
+    this.setCurrentUser(null);
+    localStorage.removeItem('loggedInUser');
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('refreshToken');
+    this.router.navigateByUrl('login');
   }
 
   setCurrentUser(user: User | null) {

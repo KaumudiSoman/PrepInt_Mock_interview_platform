@@ -18,7 +18,13 @@ export const APIResources = {
     attemptCount: '/count',
     attemptNumber: '/number',
 
+    notes: '/notes',
+    getMyNotes: '/my-notes',
+    getFavoriteNotes: '/favorite-notes',
+
     userInteractions: '/user-interactions',
+    interview: '/interview',
+    note: '/note',
 
     getSecrets: '/secrets'
 }

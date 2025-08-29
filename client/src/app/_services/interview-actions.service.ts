@@ -17,8 +17,8 @@ export class InterviewActionsService {
     private route: Router
   ) { }
 
-  getUserInteraction(interview: Interview) {
-    this.userInteractionService.getUserInteraction(interview._id).subscribe({
+  getInterviewInteraction(interview: Interview) {
+    this.userInteractionService.getInterviewInteraction(interview._id).subscribe({
       next: (response: any) => {
         if(response.data) {
           interview.isFavorite = response.data.isFavorite || false;
@@ -55,7 +55,7 @@ export class InterviewActionsService {
     let inputbody = {
       isFavorite: interview.isFavorite
     }
-    return this.updateUserInteraction(interview._id, inputbody);
+    return this.updateInterviewInteraction(interview._id, inputbody);
   };
 
   toggleThumbsUp(interview: Interview) {
@@ -73,7 +73,7 @@ export class InterviewActionsService {
         interview.isThumbsDown = false;
       }
     }
-    return this.updateUserInteraction(interview._id, {voteType});
+    return this.updateInterviewInteraction(interview._id, {voteType});
   }
 
   toggleThumbsDown(interview: Interview) {
@@ -91,10 +91,10 @@ export class InterviewActionsService {
         interview.isThumbsUp = false;
       }
     }
-    return this.updateUserInteraction(interview._id, {voteType});
+    return this.updateInterviewInteraction(interview._id, {voteType});
   };
 
-  updateUserInteraction(interviewId: string, inputbody: any) {
-    return this.userInteractionService.updateUserInteraction(interviewId, inputbody);
+  updateInterviewInteraction(interviewId: string, inputbody: any) {
+    return this.userInteractionService.updateInterviewInteraction(interviewId, inputbody);
   }
 }

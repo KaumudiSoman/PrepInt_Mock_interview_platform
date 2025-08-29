@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center align-items-center">
     <div class="form-width">
-        <form class="text-center" [formGroup]="loginForm" (ngSubmit)="loginForm.valid && login()">
+        <form id="login-form" class="text-center" [formGroup]="loginForm" (ngSubmit)="loginForm.valid && login()">
             <h2 class="text-center text-primary-emphasis">Log In</h2>
             <hr>
             <div class="col p-0">
@@ -23,7 +23,7 @@
 
             <hr>
             <div class="d-flex justify-content-center align-items-center">
-                <button class="btn btn-success me-4" type="submit" [disabled]="!loginForm.valid">Login</button>
+                <button id="login-submit" class="btn btn-success me-4" type="submit" [disabled]="!loginForm.valid">Login</button>
             </div>
         </form>
         <div class="mt-4 text-center">

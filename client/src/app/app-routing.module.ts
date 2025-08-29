@@ -11,6 +11,8 @@ import { FavoriteInterviewsComponent } from './components/favorite-interviews/fa
 import { InterviewConductingAgentComponent } from './components/interview-conducting-agent/interview-conducting-agent.component';
 import { InterviewFeedbackComponent } from './components/interview-feedback/interview-feedback.component';
 import { FeedbacksComponent } from './components/feedbacks/feedbacks.component';
+import { NotesComponent } from './components/notes/notes/notes.component';
+import { InterviewNoteComponent } from './components/notes/interview-note/interview-note.component';
 
 const routes: Routes = [
   {path: '', component: DashboardComponent},
@@ -22,8 +24,10 @@ const routes: Routes = [
   {path: 'create-interview', component: InterviewCreationAgentComponent},
   {path: 'start-interview/:id', component: InterviewConductingAgentComponent},
   {path: 'favorite-interviews', component: FavoriteInterviewsComponent},
+  {path: 'feedbacks', component: FeedbacksComponent},
   {path: 'interview-feedback/:id', component: InterviewFeedbackComponent},
-  {path: 'feedbacks', component: FeedbacksComponent}
+  {path: 'notes', component: NotesComponent},
+  {path: 'notes/:id', component: InterviewNoteComponent},
 ];
 
 @NgModule({

@@ -24,6 +24,8 @@ import { InterviewFeedbackComponent } from './components/interview-feedback/inte
 import { AuthErrorInterceptor } from './_interceptors/auth-error.interceptor';
 import { FeedbacksComponent } from './components/feedbacks/feedbacks.component';
 import { ConfirmationDialogComponent } from './components/custom-components/confirmation-dialog/confirmation-dialog.component';
+import { InterviewNoteComponent } from './components/notes/interview-note/interview-note.component';
+import { NotesComponent } from './components/notes/notes/notes.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { ConfirmationDialogComponent } from './components/custom-components/conf
     InterviewConductingAgentComponent,
     InterviewFeedbackComponent,
     FeedbacksComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    InterviewNoteComponent,
+    NotesComponent
   ],
   imports: [
     BrowserModule,

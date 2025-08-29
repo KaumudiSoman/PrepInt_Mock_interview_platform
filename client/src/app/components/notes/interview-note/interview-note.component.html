@@ -1,0 +1,121 @@
+<div class="note-container" *ngIf="note">
+  <div class="header">
+    <h2>Study Guide & Practice Questions</h2>
+    <p>Comprehensive learning materials and interview preparation</p>
+    
+    <div class="metadata-card">
+      <div class="metadata-row">
+        <div class="metadata-item">
+          <span class="metadata-label">Role:</span>
+          <span class="metadata-value">{{ toCamelCase(note.role) }}</span>
+        </div>
+        <span class="separator">•</span>
+        <div class="metadata-item">
+          <span class="metadata-label">Level:</span>
+          <span class="metadata-value">{{ toCamelCase(note.level) }}</span>
+        </div>
+        <span class="separator">•</span>
+        <div class="metadata-item">
+          <span class="metadata-label">Type:</span>
+          <span class="metadata-value">{{ toCamelCase(note.type) }}</span>
+        </div>
+        <span class="separator" *ngIf="note.companyType">•</span>
+        <div class="metadata-item" *ngIf="note.companyType">
+          <span class="metadata-label">Company:</span>
+          <span class="metadata-value">{{ toCamelCase(note.companyType) }}</span>
+        </div>
+      </div>
+      <div class="metadata-row">
+        <div class="metadata-item">
+          <span class="metadata-label">Tech Stack:</span>
+          <span class="metadata-value">{{ formatTechStack(note.techstack) }}</span>
+        </div>
+        <span class="separator" *ngIf="note.description">•</span>
+        <div class="metadata-item" *ngIf="note.description">
+          <span class="metadata-label">Company:</span>
+          <span class="metadata-value">{{ toCamelCase(note.description) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Study Guide Section -->
+    <div class="section">
+      <h3 class="section-title">Study Guide</h3>
+      <div class="study-guide">
+        <!-- Basic Level -->
+        <div class="level-section" *ngIf="note.studyGuide?.basic && note.studyGuide.basic.length > 0">
+          <div class="level-title">
+            <span>Basic Concepts</span>
+            <span class="level-badge basic">Basic</span>
+          </div>
+          <div class="study-points">
+            <div class="study-point" *ngFor="let point of note.studyGuide.basic">
+              <div class="point-topic">{{ point.topic }}</div>
+              <div class="point-explanation">{{ point.explanation }}</div>
+              <div class="point-example" *ngIf="point.example">{{ point.example }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Intermediate Level -->
+        <div class="level-section" *ngIf="note.studyGuide?.intermediate && note.studyGuide.intermediate.length > 0">
+          <div class="level-title">
+            <span>Intermediate Concepts</span>
+            <span class="level-badge intermediate">Intermediate</span>
+          </div>
+          <div class="study-points">
+            <div class="study-point" *ngFor="let point of note.studyGuide.intermediate">
+              <div class="point-topic">{{ point.topic }}</div>
+              <div class="point-explanation">{{ point.explanation }}</div>
+              <div class="point-example" *ngIf="point.example">{{ point.example }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Advanced Level -->
+        <div class="level-section" *ngIf="note.studyGuide?.advanced && note.studyGuide.advanced.length > 0">
+          <div class="level-title">
+            <span>Advanced Concepts</span>
+            <span class="level-badge advanced">Advanced</span>
+          </div>
+          <div class="study-points">
+            <div class="study-point" *ngFor="let point of note.studyGuide.advanced">
+              <div class="point-topic">{{ point.topic }}</div>
+              <div class="point-explanation">{{ point.explanation }}</div>
+              <div class="point-example" *ngIf="point.example">{{ point.example }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Practice Questions Section -->
+    <div class="section" *ngIf="note.practiceQuestions && note.practiceQuestions.length > 0">
+      <h3 class="section-title">Practice Questions</h3>
+      <div class="practice-questions">
+        <div class="question-card" *ngFor="let question of note.practiceQuestions">
+          <div class="question-header">
+            <span class="question-level" [ngClass]="question.level">{{ toCamelCase(question.level) }}</span>
+          </div>
+          <div class="question-text">{{ question.question }}</div>
+          <div class="answer-section">
+            <div class="answer-label">Answer:</div>
+            <div class="answer-text">{{ question.answer }}</div>
+          </div>
+          <div class="interviewer-tips" *ngIf="question.interviewerFocus || question.avoid">
+            <div class="tip-section focus-section" *ngIf="question.interviewerFocus">
+              <div class="tip-label">Interviewer Focus</div>
+              <div class="tip-text">{{ question.interviewerFocus }}</div>
+            </div>
+            <div class="tip-section avoid-section" *ngIf="question.avoid">
+              <div class="tip-label">Avoid</div>
+              <div class="tip-text">{{ question.avoid }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

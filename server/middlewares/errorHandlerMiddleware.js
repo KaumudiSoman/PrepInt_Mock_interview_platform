@@ -1,5 +1,5 @@
 module.exports = (err, req, res, next) => {
-    console.error("Error: ", err);
+    console.error(`Error: ${err.message} (status: ${err.statusCode || 500})`);
 
     if(res.headersSent) {
         return next(err);

@@ -6,6 +6,7 @@ const userRouter = require('./routes/userRoutes');
 const interviewRouter = require('./routes/interviewRoutes');
 const userInteractionRouter = require('./routes/userInteractionRoutes');
 const secretsRouter = require('./routes/secretsRoutes');
+const notesRouter = require('./routes/noteRoutes');
 
 const errorHandlerMiddleware = require('./middlewares/errorHandlerMiddleware');
 
@@ -30,6 +31,7 @@ app.use('/api/users', userRouter);
 app.use('/api/interviews', interviewRouter);
 app.use('/api/user-interactions', userInteractionRouter);
 app.use('/api/secrets', secretsRouter);
+app.use('/api/notes', notesRouter);
 
 app.all('*', (req, res, next) => {
   const err = new Error(`Cannot find ${req.originalUrl} on this server`);

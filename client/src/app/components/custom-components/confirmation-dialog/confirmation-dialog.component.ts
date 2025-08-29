@@ -16,7 +16,7 @@ export class ConfirmationDialogComponent {
 
   onConfirm() {
     this.confirm.emit();
-    this.visible = false; // optional: hide after confirm
+    this.visible = false;
   }
 
   onCancel() {

@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
       next: (response: any) => {
         this.allInterviews = response.data;
         this.allInterviews.forEach(interview => {
-          this.interviewActionsService.getUserInteraction(interview);
+          this.interviewActionsService.getInterviewInteraction(interview);
           this.getAttempts(interview);
         });
       },
@@ -52,7 +52,7 @@ export class DashboardComponent implements OnInit {
       next: (response: any) => {
         this.userInterviews = response.data;
         this.userInterviews.forEach(interview => {
-          this.interviewActionsService.getUserInteraction(interview);
+          this.interviewActionsService.getInterviewInteraction(interview);
           this.getAttempts(interview);
         });
       },

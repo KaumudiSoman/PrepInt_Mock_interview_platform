@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Interview } from 'src/app/_models/InterviewModel';
+import { Note } from 'src/app/_models/noteModel';
 import { User } from 'src/app/_models/UserModel';
 import { AuthService } from 'src/app/_services/auth.service';
 import { UtilService } from 'src/app/_services/util.service';
@@ -9,17 +10,18 @@ import { UtilService } from 'src/app/_services/util.service';
   templateUrl: './interview-card-grid.component.html',
   styleUrls: ['./interview-card-grid.component.css']
 })
-export class InterviewCardGridComponent {
+export class InterviewCardGridComponent implements OnInit {
   @Input() title!: string;
-  @Input() interviews: Interview[] = [];
+  @Input() data: (Interview | Note)[] = [];
   @Input() user: boolean = false;
+  @Input() cardType!: string;
   popup: boolean = false;
+  buttonTitle!: string;
 
-  @Output() startInterview = new EventEmitter<string>();
+  @Output() start = new EventEmitter<string>();
   @Output() thumbsUp = new EventEmitter<any>();
   @Output() thumbsDown = new EventEmitter<any>();
   @Output() favorite = new EventEmitter<any>();
-  // @Output() delete = new EventEmitter<string>();
   @Output() onCreate = new EventEmitter<void>();
   @Output() requestDelete = new EventEmitter<string>();
 
@@ -32,6 +34,12 @@ export class InterviewCardGridComponent {
     this.loggedInUser = this.authService.getCurrentUser();
   }
 
+  ngOnInit() {
+    if (this.cardType) {
+      this.buttonTitle = (this.toCamelCase(this.cardType) === 'Interview') ? 'Start' : 'Details';
+    }
+  }
+
   toCamelCase(text: string): string {
     return this.utilService.toCamelCase(text);
   };
@@ -41,7 +49,6 @@ export class InterviewCardGridComponent {
   }
 
   openPopup(interviewId: string) {
-    // this.popup = true;
     this.requestDelete.emit(interviewId);
   }
 }

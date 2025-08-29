@@ -4,8 +4,12 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-router.route('/:interviewId')
-    .get(authController.protect, authController.verify, userInteractionController.getUserInteraction)
-    .put(authController.protect, authController.verify, userInteractionController.updateUserInteraction);
+router.route('/interview/:interviewId')
+    .get(authController.protect, authController.verify, userInteractionController.getInterviewInteraction)
+    .put(authController.protect, authController.verify, userInteractionController.updateInterviewInteraction);
+
+router.route('/note/:noteId')
+    .get(authController.protect, authController.verify, userInteractionController.getNoteInteraction)
+    .put(authController.protect, authController.verify, userInteractionController.updateNoteInteraction);
 
 module.exports = router;
