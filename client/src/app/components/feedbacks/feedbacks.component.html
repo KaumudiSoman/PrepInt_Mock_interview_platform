@@ -1,6 +1,6 @@
 <div *ngIf="feedbacks.length > 0">
   <div class="feedback-list" *ngFor="let feedback of feedbacks">
-    <a [href]="'/interview-feedback/' + feedback._id" class="feedback-card">
+    <a [href]="'/feedbacks/' + feedback._id" class="feedback-card">
       <div class="feedback-header">
         <h3>{{ toCamelCase(feedback.interview.role) }} Interview</h3>
         <span class="date">{{ (feedback.updatedAt || feedback.createdAt) | date: 'dd/MM/yyyy' }}</span>

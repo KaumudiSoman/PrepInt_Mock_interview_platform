@@ -1,0 +1,69 @@
+<div class="d-flex justify-content-center align-items-center">
+    <div class="form-width">
+        <form id="login-form" class="text-center" [formGroup]="noteForm" (ngSubmit)="noteForm.valid && createNote()">
+            <h2 class="text-center text-primary-emphasis">Create Note</h2>
+            <hr>
+            <div class="col p-0">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="role" placeholder="Role" formControlName="role"
+                    [class.is-invalid]="noteForm.get('role')?.invalid && 
+                    (noteForm.get('role')?.dirty || noteForm.get('role')?.touched)">
+                    <label for="role">Role</label>
+                </div>
+            </div>
+
+            <div class="col p-0">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="level" placeholder="Level" formControlName="level"
+                    [class.is-invalid]="noteForm.get('level')?.invalid && 
+                    (noteForm.get('level')?.dirty || noteForm.get('level')?.touched)">
+                    <label for="level">Level</label>
+                </div>
+            </div>
+
+            <div class="col p-0">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="type" placeholder="Interview Type" formControlName="type"
+                    [class.is-invalid]="noteForm.get('type')?.invalid && 
+                    (noteForm.get('type')?.dirty || noteForm.get('type')?.touched)">
+                    <label for="type">Interview Type</label>
+                </div>
+            </div>
+
+            <div class="col p-0">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="teckstack" placeholder="Teck Stack" formControlName="techstack"
+                    [class.is-invalid]="noteForm.get('teckstack')?.invalid && 
+                    (noteForm.get('teckstack')?.dirty || noteForm.get('teckstack')?.touched)">
+                    <label for="teckstack">Teck Stack</label>
+                </div>
+            </div>
+
+            <div class="col p-0">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="company_type" placeholder="Company Type" formControlName="company_type"
+                    [class.is-invalid]="noteForm.get('company_type')?.invalid && 
+                    (noteForm.get('company_type')?.dirty || noteForm.get('company_type')?.touched)">
+                    <label for="company_type">Company Type</label>
+                </div>
+            </div>
+
+            <div class="col p-0">
+                <div class="form-floating mb-3">
+                    <textarea type="text" class="form-control" id="description" placeholder="Interview Description" formControlName="description"
+                    [class.is-invalid]="noteForm.get('description')?.invalid && 
+                    (noteForm.get('description')?.dirty || noteForm.get('description')?.touched)"></textarea>
+                    <label for="description">Interview Description</label>
+                </div>
+            </div>
+
+            <hr>
+            <div class="d-flex justify-content-center align-items-center">
+                <button class="btn btn-success me-4" type="submit" [disabled]="!noteForm.valid">Create</button>
+            </div>
+        </form>
+    </div>
+    <!-- <div class="img-div">
+        <img src="https://prepint-images.s3.ap-south-1.amazonaws.com/landing.png" alt="signinpage">
+    </div> -->
+</div>

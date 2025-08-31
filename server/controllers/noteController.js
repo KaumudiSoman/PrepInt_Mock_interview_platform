@@ -9,7 +9,7 @@ const googleModel = google("gemini-2.0-flash-001", {
 });
 
 exports.createNote = async (req, res) => {
-  const { type, role, level, techstack, company_type, description, userId } = req.body;
+  const { type, role, level, techstack, company_type, description } = req.body;
 
   try {
     let { text: rawnote } = await generateText({
@@ -109,7 +109,7 @@ rawnote = rawnote.trim();
     const parsed_note = JSON.parse(rawnote);
 
     const note = new Note({
-      userId,
+      userId: req.user.id,
       role,
       level,
       type,

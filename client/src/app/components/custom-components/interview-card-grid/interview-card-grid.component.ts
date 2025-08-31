@@ -51,4 +51,8 @@ export class InterviewCardGridComponent implements OnInit {
   openPopup(interviewId: string) {
     this.requestDelete.emit(interviewId);
   }
+
+  isInterview(item: Interview | Note): item is Interview {
+    return 'attempts' in item;
+  }
 }

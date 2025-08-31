@@ -37,4 +37,9 @@ export class NoteService {
     const headers = this.utilService.setAuthHeader();
     return this.http.delete(APIResources.baseUrl + APIResources.notes + `/${noteId}`, {headers});
   }
+
+  createNote(inputbody: any) {
+    const headers = this.utilService.setAuthHeader();
+    return this.http.post(APIResources.baseUrl + APIResources.notes, inputbody, {headers});
+  }
 }

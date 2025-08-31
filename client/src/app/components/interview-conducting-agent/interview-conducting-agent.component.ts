@@ -164,7 +164,7 @@ export class InterviewConductingAgentComponent implements OnInit {
       transcript: transcript
     }
     this.feedbackService.createFeedback(inputbody).subscribe({
-      next: (response: any) => this.router.navigateByUrl(`interview-feedback/${response.data._id}`),
+      next: (response: any) => this.router.navigateByUrl(`feedbacks/${response.data._id}`),
       error: error => this.toastrService.error(error.error?.error || error.message)
     });
   }

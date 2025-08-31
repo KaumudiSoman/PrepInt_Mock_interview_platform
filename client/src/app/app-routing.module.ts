@@ -13,21 +13,30 @@ import { InterviewFeedbackComponent } from './components/interview-feedback/inte
 import { FeedbacksComponent } from './components/feedbacks/feedbacks.component';
 import { NotesComponent } from './components/notes/notes/notes.component';
 import { InterviewNoteComponent } from './components/notes/interview-note/interview-note.component';
+import { CreateNoteComponent } from './components/notes/create-note/create-note.component';
+import { authGuard } from './_guards/auth.guard';
 
 const routes: Routes = [
-  {path: '', component: DashboardComponent},
-  {path: 'signup', component: SignupComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'verify-email/:token', component: VerifyEmailComponent},
-  {path: 'forgot-password', component: ForgotPasswordComponent},
-  {path: 'reset-password/:token', component: ResetPasswordComponent},
-  {path: 'create-interview', component: InterviewCreationAgentComponent},
-  {path: 'start-interview/:id', component: InterviewConductingAgentComponent},
-  {path: 'favorite-interviews', component: FavoriteInterviewsComponent},
-  {path: 'feedbacks', component: FeedbacksComponent},
-  {path: 'interview-feedback/:id', component: InterviewFeedbackComponent},
-  {path: 'notes', component: NotesComponent},
-  {path: 'notes/:id', component: InterviewNoteComponent},
+  { path: 'signup', component: SignupComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'verify-email/:token', component: VerifyEmailComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password/:token', component: ResetPasswordComponent },
+  { path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [authGuard],
+    children: [
+      { path: '', component: DashboardComponent },
+      { path: 'create-interview', component: InterviewCreationAgentComponent },
+      { path: 'start-interview/:id', component: InterviewConductingAgentComponent },
+      { path: 'favorite-interviews', component: FavoriteInterviewsComponent },
+      { path: 'feedbacks', component: FeedbacksComponent },
+      { path: 'feedbacks/:id', component: InterviewFeedbackComponent },
+      { path: 'notes', component: NotesComponent },
+      { path: 'notes/:id', component: InterviewNoteComponent },
+      { path: 'create-note', component: CreateNoteComponent },
+    ]
+  }
 ];
 
 @NgModule({

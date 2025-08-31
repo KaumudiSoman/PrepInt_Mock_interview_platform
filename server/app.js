@@ -13,7 +13,7 @@ const errorHandlerMiddleware = require('./middlewares/errorHandlerMiddleware');
 const app = express();
 
 app.use(cors({
-  // origin: ['http://localhost:4200'],
+  // origin: ['http://localhost:4200', "http://127.0.0.1:4200"],
   credentials: true
 }));
 
@@ -22,8 +22,6 @@ app.options('*', cors());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
-
-app.use(express.static('public'));
 
 app.use(cookieParser());
 

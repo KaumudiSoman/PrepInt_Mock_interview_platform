@@ -26,6 +26,7 @@ import { FeedbacksComponent } from './components/feedbacks/feedbacks.component';
 import { ConfirmationDialogComponent } from './components/custom-components/confirmation-dialog/confirmation-dialog.component';
 import { InterviewNoteComponent } from './components/notes/interview-note/interview-note.component';
 import { NotesComponent } from './components/notes/notes/notes.component';
+import { CreateNoteComponent } from './components/notes/create-note/create-note.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { NotesComponent } from './components/notes/notes/notes.component';
     FeedbacksComponent,
     ConfirmationDialogComponent,
     InterviewNoteComponent,
-    NotesComponent
+    NotesComponent,
+    CreateNoteComponent,
   ],
   imports: [
     BrowserModule,

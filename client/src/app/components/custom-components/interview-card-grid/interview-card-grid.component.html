@@ -2,7 +2,7 @@
   <h4 class="ps-5 text-body">{{ title }}</h4>
   <div class="user-interview-grid">
     <div class="card" *ngFor="let item of data">
-      <div class="attempt-tag" *ngIf="'attempts' in item && item.attempts > 0">
+      <div class="attempt-tag" *ngIf="isInterview(item) && item.attempts > 0">
         Attempted
       </div>
       <div class="card-body">
